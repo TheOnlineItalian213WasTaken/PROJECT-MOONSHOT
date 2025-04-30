@@ -15,9 +15,9 @@ public class Vector2 {
 
     // Metodi costruttori
     Vector2() { // Costruttore vuoto
-        x = 0;
-        y = 0;
-        magnitude = 0;
+        this.x = 0;
+        this.y = 0;
+        this.magnitude = 0;
     }
 
     Vector2(double x, double y) { // Costruttore da utilizzare nella maggior parte dei casi
@@ -25,7 +25,7 @@ public class Vector2 {
         this.y = y;
 
         // Calcolo del modulo del vettore
-        magnitude = Math.sqrt((Math.pow(x, 2)) + (Math.pow(y, 2)));
+        this.magnitude = Math.sqrt((Math.pow(x, 2)) + (Math.pow(y, 2)));
     }
 
     // Metodi set() e get()
@@ -82,5 +82,27 @@ public class Vector2 {
         subVector = new Vector2(subX, subY); // La sottrazione dei vettori è la sottrazione delle loro componenti
 
         return subVector;
+    }
+    public Vector2 multiplication(Vector2 multiplicatingVector){
+        Vector2 mulVector;
+        double mulX,mulY;
+
+        mulX = this.x * multiplicatingVector.getX();
+        mulY = this.y * multiplicatingVector.getY();
+        mulVector = new Vector2(mu)
+    }
+
+
+    public Vector2 unit() {
+        Vector2 unitVector;
+        double unitX, unitY;
+        
+        unitX = this.x / this.magnitude;
+        unitY = this.y / this.magnitude;
+        unitVector =
+    }
+
+    public double dotProduct(Vector2 secondVector) {
+        
     }
 }
