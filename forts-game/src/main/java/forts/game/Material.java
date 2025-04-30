@@ -2,6 +2,7 @@ package forts.game;
 
 public abstract class Material {
     protected String name; // Nome del materiale
+    protected String spriteDirectory; // Directory della sprite per il materiale (LE SPRITE SONO 200x800)
     
     protected double density; // Densità del materiale in kg/m^3
     protected double weightResistance; // Quanto peso può portare il materiale prima di cedere
@@ -17,6 +18,11 @@ public abstract class Material {
     // N.B. Valori di "fatigue" sopra 1000 romperanno istantaneamente il materiale, andare sotto il "compressionThreshold" oppure sopra il "tensionThreshold" aumenterà rapidamente la fatigue in base a quanto si è sopra / sotto la soglia.
     // Alla "fatigue", oltre allo stress causato da dilatazione del materiale, verrà aggiunto il valore del peso che il materiale deve sopportare, seguendo una scala lineare determinata dalla "weightResistance"
 
+    // Metodo costruttore
+    Material() {
+        fatigueBuffer = new double[10]; // Limite massimo di 10 fonti di stress
+    }
+
     // Metodi set() e get()
     public String getName() {
         return name;
@@ -24,6 +30,14 @@ public abstract class Material {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSpriteDirectory() {
+        return spriteDirectory;
+    }
+
+    public void setSpriteDirectory(String spriteDirectory) {
+        this.spriteDirectory = spriteDirectory;
     }
 
     public double getDensity() {
@@ -88,6 +102,50 @@ public abstract class Material {
 
     public void setFatigueBuffer(double[] fatigueBuffer) {
         this.fatigueBuffer = fatigueBuffer;
+    }
+
+    // Metodi classe
+    private void clearFatigueBuffer() { // Metodo privato per ripulire il buffer dello stress una volta calcolato correttamente il valore di "fatigue"
+        int i, length;
+
+        length = this.fatigueBuffer.length;
+        for(i = 0; i < length; i++) {
+            fatigueBuffer[i] = 0;
+        }
+    }
+
+    public void addFatigue(double fatigue) { // Metodo utilizzato dalle altre classi per aggiungere fonti di stress a "fatigueBuffer"
+        int i, length;
+
+        length = this.fatigueBuffer.length;
+        for(i = 0; i < length; i++) {
+            if(!(fatigueBuffer[i] == 0)) {
+                continue;
+            }
+
+            fatigueBuffer[i] = fatigue;
+
+            break;
+        }
+    }
+
+    public void computeFatigue() { // Calcolo dello stress totale in base ai valori messi dentro "fatigueBuffer"
+        int i, length;
+        double finalFatigue;
+
+        finalFatigue = 0; // Inizializza la somma di tutto a 0
+        length = this.fatigueBuffer.length;
+        for(i = 0; i < length; i++) {
+            if(fatigueBuffer[i] == 0) {
+                continue;
+            }
+
+            finalFatigue += fatigueBuffer[i];
+        }
+
+        clearFatigueBuffer(); // Svuota il buffer una volta calcolato lo stress totale
+
+        this.fatigue = finalFatigue;
     }
 
 }
