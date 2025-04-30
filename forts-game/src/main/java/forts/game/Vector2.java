@@ -84,7 +84,7 @@ public class Vector2 {
         return subVector;
     }
     
-    public Vector2 multiplication(Vector2 multiplicatingVector){ // Moltiplicazione tra vettori passando un vettore
+    public Vector2 multiply(Vector2 multiplicatingVector){ // Moltiplicazione tra vettori passando un vettore
         Vector2 mulVector;
         double mulX,mulY;
 
@@ -94,18 +94,18 @@ public class Vector2 {
 
         return mulVector;
     }
-    public Vector2 multiplication(double num){ // Moltiplicazione tra vettori passando un double
+    public Vector2 multiply(double num){ // Moltiplicazione tra vettori passando un double
         Vector2 mulVector;
         double mulX,mulY;
 
         mulX = this.x * num;
         mulY = this.y * num;
-        mulVector = new Vector2(mulX,mulY); // La moltiplicazione dei vettori è la moltiplicazione delle loro componenti
+        mulVector = new Vector2(mulX,mulY);
 
         return mulVector;
     }
 
-    public Vector2 division(Vector2 dividingVector){ // Divisione tra vettori passando un vettore
+    public Vector2 divide(Vector2 dividingVector){ // Divisione tra vettori passando un vettore
         Vector2 divVector;
         double divX,divY;
 
@@ -115,24 +115,21 @@ public class Vector2 {
 
         return divVector;
     }
-    public Vector2 division(double num){ // Divisione tra vettori passando un double
+    public Vector2 divide(double num){ // Divisione tra vettori passando un double
         Vector2 divVector;
         double divX,divY;
 
         divX = this.x / num;
         divY = this.y / num;
-        divVector = new Vector2(divX,divY); // La divisione dei vettori è la divisione delle loro componenti
+        divVector = new Vector2(divX,divY);
 
         return divVector;
     }
 
     public Vector2 unit() { // Metodo per ritornare il vettore normalizzato del vettore su cui questo metodo è stato richiamato
         Vector2 unitVector;
-        double unitX, unitY;
-        
-        unitX = this.x / this.magnitude;
-        unitY = this.y / this.magnitude;
-        unitVector = new Vector2(unitX, unitY);
+
+        unitVector = this.divide(this.magnitude);
 
         return unitVector;
     }
