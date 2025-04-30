@@ -73,13 +73,13 @@ public class Vector2 {
         return sumVector;
     }
 
-    public Vector2 subtract(Vector2 subtractingVector) { // Somma tra vettori
+    public Vector2 subtract(Vector2 subtractingVector) { // Sottrazione tra vettori
         Vector2 subVector;
         double subX, subY;
 
         subX = this.x - subtractingVector.getX();
         subY = this.y - subtractingVector.getY();
-        subVector = new Vector2(subX, subY); // La somma dei vettori è la somma delle sue componenti
+        subVector = new Vector2(subX, subY); // La sottrazione dei vettori è la sottrazione delle loro componenti
 
         return subVector;
     }
