@@ -83,26 +83,67 @@ public class Vector2 {
 
         return subVector;
     }
-    public Vector2 multiplication(Vector2 multiplicatingVector){
+    
+    public Vector2 multiplication(Vector2 multiplicatingVector){ // Moltiplicazione tra vettori passando un vettore
         Vector2 mulVector;
         double mulX,mulY;
 
         mulX = this.x * multiplicatingVector.getX();
         mulY = this.y * multiplicatingVector.getY();
-        mulVector = new Vector2(mu)
+        mulVector = new Vector2(mulX,mulY); // La moltiplicazione dei vettori è la moltiplicazione delle loro componenti
+
+        return mulVector;
+    }
+    public Vector2 multiplication(double num){ // Moltiplicazione tra vettori passando un double
+        Vector2 mulVector;
+        double mulX,mulY;
+
+        mulX = this.x * num;
+        mulY = this.y * num;
+        mulVector = new Vector2(mulX,mulY); // La moltiplicazione dei vettori è la moltiplicazione delle loro componenti
+
+        return mulVector;
     }
 
+    public Vector2 division(Vector2 dividingVector){ // Divisione tra vettori passando un vettore
+        Vector2 divVector;
+        double divX,divY;
 
-    public Vector2 unit() {
+        divX = this.x / dividingVector.getX();
+        divY = this.y / dividingVector.getY();
+        divVector = new Vector2(divX,divY); // La divisione dei vettori è la divisione delle loro componenti
+
+        return divVector;
+    }
+    public Vector2 division(double num){ // Divisione tra vettori passando un double
+        Vector2 divVector;
+        double divX,divY;
+
+        divX = this.x / num;
+        divY = this.y / num;
+        divVector = new Vector2(divX,divY); // La divisione dei vettori è la divisione delle loro componenti
+
+        return divVector;
+    }
+
+    public Vector2 unit() { // Metodo per ritornare il vettore normalizzato del vettore su cui questo metodo è stato richiamato
         Vector2 unitVector;
         double unitX, unitY;
         
         unitX = this.x / this.magnitude;
         unitY = this.y / this.magnitude;
-        unitVector =
+        unitVector = new Vector2(unitX, unitY);
+
+        return unitVector;
     }
 
-    public double dotProduct(Vector2 secondVector) {
+    public double dotProduct(Vector2 secondVector) { // Ritorna un valore tra -1 e 1 in base alla differenza di direzione dei due vettori
+        double theta;
+        double dotProduct;
         
+        theta = Math.atan2(secondVector.getY(), secondVector.getX()) - Math.atan2(this.y, this.x);
+        dotProduct = this.magnitude * secondVector.getMagnitude() * Math.cos(theta);
+        
+        return dotProduct;
     }
 }
