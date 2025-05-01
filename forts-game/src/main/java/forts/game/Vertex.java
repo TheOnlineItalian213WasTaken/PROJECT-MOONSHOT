@@ -50,4 +50,60 @@ public class Vertex {
         }
     }
 
+    public String getSpriteDirectory() {
+        return spriteDirectory;
+    }
+
+    public void setSpriteDirectory(String spriteDirectory) {
+        this.spriteDirectory = spriteDirectory;
+    }
+
+    public Connection[] getConnections() {
+        return connections;
+    }
+
+    public void setConnections(Connection[] connections) {
+        this.connections = connections;
+    }
+
+    public Vector2[] getActingForces() {
+        return actingForces;
+    }
+
+    public void setActingForces(Vector2[] actingForces) {
+        this.actingForces = actingForces;
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
+    }
+
+    public Vector2 getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(Vector2 acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public Vector2 getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Vector2 velocity) {
+        this.velocity = velocity;
+    }
+
+    public boolean isAnchored() {
+        return anchored;
+    }
+
+    public void setAnchored(boolean anchored) {
+        this.anchored = anchored;
+    }
+
 }
