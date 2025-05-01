@@ -5,17 +5,49 @@ package forts.game;
 public class Vertex {
     String spriteDirectory = "buildVertexIcon.png"; // Directory della sprite per 
 
-    Vector2 position; // Posizione nel mondo
-
     Connection[] connections; // Tutte le connessioni che originano con / terminano in questo vertica
     Vector2[] actingForces; // Tutte le forze che agiscono su questo vertice in un determinato momento (forze globali (es. gravità) sono escluse)
 
-    Vector2 acceleration;
-    Vector2 velocity;
+    Vector2 position; // Posizione nel mondo del vertice
+    Vector2 acceleration; // Accelerazione del vertice
+    Vector2 velocity; // Velocità corrente del vertice
 
-    Vertex() {
-        connections = new Connection[20]; // Massimo di 20 connessioni
-        actingForces = new Vector2[20]; // Massimo di 20 forze che possono agire su un vertice  
+    boolean anchored; // Determina se il vertice è ancorato nel mondo
+    // N.B. Un vertice ancorato, non soltanto è completamente escluso da qualsiasi manipolazione fisica dovuta alle forze che agiscono su di esso, ma esso verrà anche contato come punto di dispersione e svuotamento di tutte le forze che potrebbero agire su altri vertici.
+    // In parole povere, un vertice ancorato non si muove tranne se si modifica la posizione direttamente.
+
+    Vertex() { // Costruttore base per creare un vertice in (0, 0)
+        this.connections = new Connection[20]; // Massimo di 20 connessioni
+        this.actingForces = new Vector2[20]; // Massimo di 20 forze che possono agire su un vertice  
+
+        this.velocity = new Vector2();
+        this.acceleration = new Vector2();
+        this.position = new Vector2();
+    }
+
+    Vertex(Vector2 position) { // Costruttore per creare un vertice con posizione data dall'utente
+        this.connections = new Connection[20]; // Massimo di 20 connessioni
+        this.actingForces = new Vector2[20]; // Massimo di 20 forze che possono agire su un vertice  
+
+        this.velocity = new Vector2();
+        this.acceleration = new Vector2();
+        this.position = position;
+    }
+
+    Vertex(Vector2 position, Connection[] connections) { // Costruttore per creare un vertice con posizione data dall'utente ed una serie di connessioni già esistenti
+        int i, length;
+
+        this.connections = connections;
+        this.actingForces = new Vector2[20]; // Massimo di 20 forze che possono agire su un vertice  
+
+        this.velocity = new Vector2();
+        this.acceleration = new Vector2();
+        this.position = position;
+
+        length = connections.length;
+        for(i = 0; i < length; i++) {
+            // TODO: Aggiungere ad ogni connessione il vertice appena creato
+        }
     }
 
 }
