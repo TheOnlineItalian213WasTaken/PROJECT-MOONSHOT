@@ -16,6 +16,7 @@ public class Vertex {
     // N.B. Un vertice ancorato, non soltanto è completamente escluso da qualsiasi manipolazione fisica dovuta alle forze che agiscono su di esso, ma esso verrà anche contato come punto di dispersione e svuotamento di tutte le forze che potrebbero agire su altri vertici.
     // In parole povere, un vertice ancorato non si muove tranne se si modifica la posizione direttamente.
 
+    // Metodi costruttori
     Vertex() { // Costruttore base per creare un vertice in (0, 0)
         this.connections = new Connection[20]; // Massimo di 20 connessioni
         this.actingForces = new Vector2[20]; // Massimo di 20 forze che possono agire su un vertice  
@@ -50,6 +51,7 @@ public class Vertex {
         }
     }
 
+    // Metodi set() e get()
     public String getSpriteDirectory() {
         return spriteDirectory;
     }
@@ -106,4 +108,5 @@ public class Vertex {
         this.anchored = anchored;
     }
 
+    // Metodi classe
 }
