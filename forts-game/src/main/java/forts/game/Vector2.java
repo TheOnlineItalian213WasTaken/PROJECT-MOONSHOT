@@ -143,4 +143,10 @@ public class Vector2 {
         
         return dotProduct;
     }
+
+    @Override
+    public String toString() {
+        String finalString = "(X: " + this.x + ", Y: " + this.y + ", Magnitude: " + this.magnitude + ")";
+        return finalString;
+    }
 }
