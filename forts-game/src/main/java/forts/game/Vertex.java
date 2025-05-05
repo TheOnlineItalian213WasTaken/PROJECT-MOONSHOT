@@ -1,12 +1,15 @@
 package forts.game;
 
+import java.util.ArrayList;
+
 // Classe che gestisce ogni singolo vertice su cui verranno applicate le forze all'interno del gioco
 
 public class Vertex {
     String spriteDirectory = "buildVertexIcon.png"; // Directory della sprite per 
 
-    Connection[] connections; // Tutte le connessioni che originano con / terminano in questo vertica
-    Vector2[] actingForces; // Tutte le forze che agiscono su questo vertice in un determinato momento (forze globali (es. gravità) sono escluse)
+    ArrayList connections; // Tutte le connessioni che originano con / terminano in questo vertica
+    ArrayList startingForces; // Forze che vengono disperse, mentre le actingForces non verranno disperse per la struttura
+    ArrayList actingForces; // Tutte le forze che agiscono su questo vertice in un determinato momento (forze globali (es. gravità) sono escluse)
 
     Vector2 position; // Posizione nel mondo del vertice
     Vector2 acceleration; // Accelerazione del vertice
@@ -18,8 +21,8 @@ public class Vertex {
 
     // Metodi costruttori
     Vertex() { // Costruttore base per creare un vertice in (0, 0)
-        this.connections = new Connection[20]; // Massimo di 20 connessioni
-        this.actingForces = new Vector2[20]; // Massimo di 20 forze che possono agire su un vertice  
+        this.connections = new ArrayList();
+        this.actingForces = new ArrayList();
 
         this.velocity = new Vector2();
         this.acceleration = new Vector2();
@@ -27,25 +30,25 @@ public class Vertex {
     }
 
     Vertex(Vector2 position) { // Costruttore per creare un vertice con posizione data dall'utente
-        this.connections = new Connection[20]; // Massimo di 20 connessioni
-        this.actingForces = new Vector2[20]; // Massimo di 20 forze che possono agire su un vertice  
+        this.connections = new ArrayList();
+        this.actingForces = new ArrayList();
 
         this.velocity = new Vector2();
         this.acceleration = new Vector2();
         this.position = position;
     }
 
-    Vertex(Vector2 position, Connection[] connections) { // Costruttore per creare un vertice con posizione data dall'utente ed una serie di connessioni già esistenti
+    Vertex(Vector2 position, ArrayList connections) { // Costruttore per creare un vertice con posizione data dall'utente ed una serie di connessioni già esistenti
         int i, length;
 
         this.connections = connections;
-        this.actingForces = new Vector2[20]; // Massimo di 20 forze che possono agire su un vertice  
+        this.actingForces = new ArrayList();
 
         this.velocity = new Vector2();
         this.acceleration = new Vector2();
         this.position = position;
 
-        length = connections.length;
+        length = connections.size();
         for(i = 0; i < length; i++) {
             // TODO: Aggiungere ad ogni connessione il vertice appena creato
         }
@@ -60,19 +63,19 @@ public class Vertex {
         this.spriteDirectory = spriteDirectory;
     }
 
-    public Connection[] getConnections() {
+    public ArrayList getConnections() {
         return connections;
     }
 
-    public void setConnections(Connection[] connections) {
+    public void setConnections(ArrayList connections) {
         this.connections = connections;
     }
 
-    public Vector2[] getActingForces() {
+    public ArrayList getActingForces() {
         return actingForces;
     }
 
-    public void setActingForces(Vector2[] actingForces) {
+    public void setActingForces(ArrayList actingForces) {
         this.actingForces = actingForces;
     }
 
@@ -109,4 +112,17 @@ public class Vertex {
     }
 
     // Metodi classe
+    public void addActingForce(Vector2 actingForce) {
+        this.addActingForce(actingForce);
+    }
+
+    public void disperseForces() { // Calcola la dispersione tra tutte le forze
+        int i, length;
+
+        length = this.startingForces.size();
+        for(i = 0; i < length; i++) {
+            
+        }
+    }
+
 }
