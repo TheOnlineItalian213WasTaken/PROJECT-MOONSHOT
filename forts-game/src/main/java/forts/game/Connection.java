@@ -36,5 +36,23 @@ public class Connection {
         this.material = material;
     }
 
+    // Metodi classe
+    public Vertex findOtherVertex(Vertex baseVertex) { // Metodo d'utilità per trovare l'altro met
+        Vertex otherVertex = null;
+        int i, length;
+
+        length = this.vertices.length;
+        for(i = 0; i < length; i++) {
+            if(!(this.vertices[i] == baseVertex)) { // TODO: Controlla se questo da errori, è probabile che il Java non funzioni così.
+                continue;
+            }
+
+            otherVertex = this.vertices[i];
+            
+            break;
+        }
+
+        return otherVertex;
+    }
     
 }
