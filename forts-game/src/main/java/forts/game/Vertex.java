@@ -116,13 +116,27 @@ public class Vertex {
         this.addActingForce(actingForce);
     }
 
+    public boolean branchDisperse(ArrayList forces) { // Funzione ricorsiva per la dispersione delle forze
+        int i, length;
+
+        length = this.connections.size();
+        for(i = 0; i < length; i++) {
+            Connection currConnection = (Connection) this.connections.get(i);
+            Vertex otherVertex = currConnection.findOtherVertex(this);
+        }
+
+        return true;
+    }
+
     public void disperseForces() { // Calcola la dispersione tra tutte le forze
         int i, length;
 
         length = this.startingForces.size();
-        for(i = 0; i < length; i++) {
-            
+        for(i = 0; i < length; i++) { 
+            this.addActingForce((Vector2)this.startingForces.get(i)); // Aggiunge tutte le forze pre-caricate all' ArrayList delle forze agenti
         }
+
+
     }
 
 }
