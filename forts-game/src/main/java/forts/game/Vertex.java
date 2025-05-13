@@ -1,16 +1,21 @@
 package forts.game;
 
 import java.util.ArrayList;
+import javafx.scene.image.*;
 
 // Classe che gestisce ogni singolo vertice su cui verranno applicate le forze all'interno del gioco
 
-public class Vertex {
+public class Vertex implements Drawable {
     String spriteDirectory = "buildVertexIcon.png"; // Directory della sprite per 
+
+    ImageView sprite;
 
     ArrayList connections; // Tutte le connessioni che originano con / terminano in questo vertica
     ArrayList startingForces; // Forze che vengono disperse, mentre le actingForces non verranno disperse per la struttura
     ArrayList actingForces; // Tutte le forze che agiscono su questo vertice in un determinato momento (forze globali (es. gravità) sono escluse)
 
+    Vector2 finalForce;
+    Vector2 dispersedForce;
     Vector2 position; // Posizione nel mondo del vertice
     Vector2 acceleration; // Accelerazione del vertice
     Vector2 velocity; // Velocità corrente del vertice
@@ -116,27 +121,69 @@ public class Vertex {
         this.addActingForce(actingForce);
     }
 
-    public boolean branchDisperse(ArrayList forces) { // Funzione ricorsiva per la dispersione delle forze
-        int i, length;
+    public boolean branchDisperse(Vector2 force) { // Funzione ricorsiva per la dispersione delle forze
+        int i, j, length, dispersionDiv;
+        Vector2 finalForce = force;
 
+        dispersionDiv = 0;
         length = this.connections.size();
-        for(i = 0; i < length; i++) {
+        for(i = 0; i < length; i++) { // Primo ciclo itera ogni connessione per determinare su quanti vertici può essere dispersa la forza
             Connection currConnection = (Connection) this.connections.get(i);
             Vertex otherVertex = currConnection.findOtherVertex(this);
+
+            if(otherVertex == null) {
+                continue;
+            }
+
+            double dotProduct = ((Math.abs(this.position.inverse().dotProduct(otherVertex.getPosition())) - 0.5) * 2); // Ritorna il dotProduct tra i due vettori per calcolare la dispersione 
+            if(dotProduct < 0) {
+                continue;
+            }
+
+            dispersionDiv += 1;
+        }
+
+        for(i = 0; i < length; i++) { // Secondo ciclo itera ogni connessione per disperdere le forze e continuare la funzione ricorsiva
+            Connection currConnection = (Connection) this.connections.get(i);
+            Vertex otherVertex = currConnection.findOtherVertex(this);
+
+            if(otherVertex == null) {
+                continue;
+            }
+
+            double dotProduct = ((Math.abs(this.position.inverse().dotProduct(otherVertex.getPosition())) - 0.5) * 2); // Ritorna il dotProduct tra i due vettori per calcolare la dispersione 
+            if(dotProduct < 0) {
+                continue;
+            }
+
+            Vector2 finalDispersedForce = force.divide(dispersionDiv).multiply(dotProduct);
+
+            otherVertex.addActingForce(finalDispersedForce);
+            otherVertex.branchDisperse(force);
         }
 
         return true;
     }
 
     public void disperseForces() { // Calcola la dispersione tra tutte le forze
-        int i, length;
+        int i;
+        Vector2 sumForces = new Vector2();
 
-        length = this.startingForces.size();
-        for(i = 0; i < length; i++) { 
-            this.addActingForce((Vector2)this.startingForces.get(i)); // Aggiunge tutte le forze pre-caricate all' ArrayList delle forze agenti
+        for(i = 0; i < startingForces.size(); i++) {
+            sumForces.add((Vector2)(startingForces.get(i)));
         }
 
-
+        branchDisperse(sumForces);
     }
 
+    public void draw(Camera camera) {
+        sprite = new ImageView(this.spriteDirectory); // Creazione iniziale dell'elemento grafico per il vertice
+        
+
+        this.update(camera);
+    }
+
+    public void update(Camera camera) {
+
+    }
 }
