@@ -1,9 +1,9 @@
 package forts.game;
 
-public class PositionUpdateThread extends Thread {
+public class CameraPositionUpdateThread extends Thread {
     Camera camera;
 
-    PositionUpdateThread(Camera camera) {
+    CameraPositionUpdateThread(Camera camera) {
         this.camera = camera;
     }
 

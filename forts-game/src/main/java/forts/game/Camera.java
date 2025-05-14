@@ -68,7 +68,7 @@ public class Camera extends Application {
         primaryStage.show();
 
         // Gestione di thread secondari
-        PositionUpdateThread updateLoop = new PositionUpdateThread(this);
+        CameraPositionUpdateThread updateLoop = new CameraPositionUpdateThread(this);
 
         updateLoop.setDaemon(true);
         updateLoop.start();
