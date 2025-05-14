@@ -164,6 +164,8 @@ public class Vertex implements Drawable {
 
         this.addActingForce(finalForce);
 
+        this.addActingForce(finalForce);
+
         return true;
     }
 
