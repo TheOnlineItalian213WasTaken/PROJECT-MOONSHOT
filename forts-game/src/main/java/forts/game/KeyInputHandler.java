@@ -6,6 +6,7 @@ import javafx.event.*;
 // Classe che gestisce ogni evento relativo alla tastiera
 
 public class KeyInputHandler implements EventHandler<KeyEvent> {
+    static final double BASE_SPEED = 0.0001; // Velocità di base di quanto la telecamera si muoverà ogni tick
     Camera camera;
 
     KeyInputHandler(Camera camera) {
@@ -25,13 +26,13 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
         KeyCode key = keyEvent.getCode();
 
         if(key == KeyCode.UP) {
-            movementTarget = new Vector2(0, 5);
+            movementTarget = new Vector2(0, BASE_SPEED);
         } else if(key == KeyCode.DOWN) {
-            movementTarget = new Vector2(0, -5);
+            movementTarget = new Vector2(0, -BASE_SPEED);
         } else if(key == KeyCode.LEFT) {
-            movementTarget = new Vector2(-5, 0);
+            movementTarget = new Vector2(-BASE_SPEED, 0);
         } else if(key == KeyCode.RIGHT) {
-            movementTarget = new Vector2(5, 0);
+            movementTarget = new Vector2(BASE_SPEED, 0);
         } else {
             return;
         }
