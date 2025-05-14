@@ -4,6 +4,7 @@ import javafx.application.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.control.Button;
@@ -17,10 +18,10 @@ public class Camera extends Application {
     private Scene rootScene;
     private StackPane rootPane;
     
-    private StackPane terrainPane;
-    private StackPane decorationPane;
-    private StackPane buildingsPane;
-    private StackPane backgroundPane;
+    private Pane terrainPane;
+    private Pane decorationPane;
+    private Pane buildingsPane;
+    private Pane backgroundPane;
 
     // Metodi "costruttori" (poiché JavaFX crea dei thread per la gestione dell'interfaccia, non si può creare un vero e proprio oggetto all'interno del main: Bisogna spostare il main all'interno di questa classe)
     public void start(Stage primaryStage) {
@@ -32,10 +33,10 @@ public class Camera extends Application {
         // Creazione dei pane differenti
         rootPane = new StackPane();
 
-        terrainPane = new StackPane();
-        decorationPane = new StackPane();
-        buildingsPane = new StackPane();
-        backgroundPane = new StackPane();
+        terrainPane = new Pane();
+        decorationPane = new Pane();
+        buildingsPane = new Pane();
+        backgroundPane = new Pane();
 
         rootPane.getChildren().addAll(terrainPane, decorationPane, buildingsPane, backgroundPane);
 
@@ -100,35 +101,35 @@ public class Camera extends Application {
         this.rootPane = rootPane;
     }
 
-    public StackPane getTerrainPane() {
+    public Pane getTerrainPane() {
         return terrainPane;
     }
 
-    public void setTerrainPane(StackPane terrainPane) {
+    public void setTerrainPane(Pane terrainPane) {
         this.terrainPane = terrainPane;
     }
 
-    public StackPane getDecorationPane() {
+    public Pane getDecorationPane() {
         return decorationPane;
     }
 
-    public void setDecorationPane(StackPane decorationPane) {
+    public void setDecorationPane(Pane decorationPane) {
         this.decorationPane = decorationPane;
     }
 
-    public StackPane getBuildingsPane() {
+    public Pane getBuildingsPane() {
         return buildingsPane;
     }
 
-    public void setBuildingsPane(StackPane buildingsPane) {
+    public void setBuildingsPane(Pane buildingsPane) {
         this.buildingsPane = buildingsPane;
     }
 
-    public StackPane getBackgroundPane() {
+    public Pane getBackgroundPane() {
         return backgroundPane;
     }
 
-    public void setBackgroundPane(StackPane backgroundPane) {
+    public void setBackgroundPane(Pane backgroundPane) {
         this.backgroundPane = backgroundPane;
     }
 
