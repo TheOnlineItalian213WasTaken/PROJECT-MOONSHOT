@@ -1,6 +1,7 @@
 package forts.game;
 
 import javafx.application.*;
+import javafx.event.EventType;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -15,6 +16,12 @@ public class Camera extends Application {
     private Vector2 rootWorldPosition; // La posizione del punto (0, 0) nel mondo, questo valore è basato sulla grandezza dello schermo
     private double zoom; // Variabile per tenere lo zoom della telecamera
 
+    // Movimento telecamera
+    private Vector2 cameraVelocity; // Vettore che verrà aggiunto alla posizione della camera ogni tick
+
+    // Ascoltatori / event handler
+    private KeyInputHandler keyInputHandler;
+
     private Scene rootScene;
     private StackPane rootPane;
     
@@ -28,7 +35,9 @@ public class Camera extends Application {
         // Inizializzazione attributi
         this.position = new Vector2();
         this.rootWorldPosition = new Vector2();
-        this.zoom = 0.5;
+        this.zoom = 0.1;
+        this.cameraVelocity = new Vector2();
+        this.keyInputHandler = new KeyInputHandler(this);
 
         // Creazione dei pane differenti
         rootPane = new StackPane();
@@ -45,6 +54,9 @@ public class Camera extends Application {
 
         // Creazione della scene e messa in mostra della finestra
         rootScene = new Scene(rootPane);
+
+        rootScene.setOnKeyPressed(keyInputHandler);
+        rootScene.setOnKeyReleased(keyInputHandler);
         
         primaryStage.setScene(rootScene);
         primaryStage.setFullScreen(true);
@@ -54,6 +66,13 @@ public class Camera extends Application {
         rootScene.setFill(Color.GRAY);
 
         primaryStage.show();
+
+        // Gestione di thread secondari
+        PositionUpdateThread updateLoop = new PositionUpdateThread(this);
+
+        updateLoop.setDaemon(true);
+        updateLoop.start();
+        
     }
 
     public static void main(String[] args) {
@@ -133,11 +152,27 @@ public class Camera extends Application {
         this.backgroundPane = backgroundPane;
     }
 
+    public Vector2 getCameraVelocity() {
+        return cameraVelocity;
+    }
+
+    public void setCameraVelocity(Vector2 cameraVelocity) {
+        this.cameraVelocity = cameraVelocity;
+    }
+
+    public KeyInputHandler getKeyInputHandler() {
+        return keyInputHandler;
+    }
+
+    public void setKeyInputHandler(KeyInputHandler keyInputHandler) {
+        this.keyInputHandler = keyInputHandler;
+    }
+
     // Metodi classe
     public Vector2 calculateOffset(Vector2 baseVector){
         Vector2 finishedVector;
 
-        finishedVector = (baseVector.multiply(this.zoom)).subtract(this.position).add(this.rootWorldPosition);
+        finishedVector = baseVector.subtract(this.position).multiply(this.zoom).add(this.rootWorldPosition);
 
         return finishedVector;
     }
