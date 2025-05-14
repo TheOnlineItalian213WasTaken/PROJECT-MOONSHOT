@@ -22,6 +22,9 @@ public class Camera extends Application {
     // Ascoltatori / event handler
     private KeyInputHandler keyInputHandler;
 
+    // Stoccaggio di informazioni relative al forte
+    private Fort mainFort;
+
     private Scene rootScene;
     private StackPane rootPane;
     
@@ -35,9 +38,10 @@ public class Camera extends Application {
         // Inizializzazione attributi
         this.position = new Vector2();
         this.rootWorldPosition = new Vector2();
-        this.zoom = 0.1;
+        this.zoom = 0.35;
         this.cameraVelocity = new Vector2();
         this.keyInputHandler = new KeyInputHandler(this);
+        this.mainFort = new Fort(); // TODO: AGGIUNGI FUNZIONI DI CARICMANETO DA FILE
 
         // Creazione dei pane differenti
         rootPane = new StackPane();
@@ -51,6 +55,13 @@ public class Camera extends Application {
 
         Vertex testVertex = new Vertex(new Vector2(200, 300));
         testVertex.draw(this);
+        mainFort.addVertex(testVertex);
+        testVertex = new Vertex(new Vector2(500, 300));
+        testVertex.draw(this);
+        mainFort.addVertex(testVertex);
+        testVertex = new Vertex(new Vector2(200, 700));
+        testVertex.draw(this);
+        mainFort.addVertex(testVertex);
 
         // Creazione della scene e messa in mostra della finestra
         rootScene = new Scene(rootPane);
@@ -69,9 +80,13 @@ public class Camera extends Application {
 
         // Gestione di thread secondari
         CameraPositionUpdateThread updateLoop = new CameraPositionUpdateThread(this);
+        GUIPositionUpdateThread guiUpdateLoop = new GUIPositionUpdateThread(this);
 
         updateLoop.setDaemon(true);
         updateLoop.start();
+
+        guiUpdateLoop.setDaemon(true);
+        guiUpdateLoop.start();
         
     }
 
@@ -168,11 +183,21 @@ public class Camera extends Application {
         this.keyInputHandler = keyInputHandler;
     }
 
+    public Fort getMainFort() {
+        return mainFort;
+    }
+
+    public void setMainFort(Fort mainFort) {
+        this.mainFort = mainFort;
+    }
+
     // Metodi classe
     public Vector2 calculateOffset(Vector2 baseVector){
         Vector2 finishedVector;
 
         finishedVector = baseVector.subtract(this.position).multiply(this.zoom).add(this.rootWorldPosition);
+
+        finishedVector = new Vector2(finishedVector.getX(), -finishedVector.getY());
 
         return finishedVector;
     }
