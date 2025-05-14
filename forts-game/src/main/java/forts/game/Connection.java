@@ -4,10 +4,11 @@ import java.lang.Math;
 
 // Classe che gestisce le connessioni tra vertici di costruzione
 
-public class Connection {
+public class Connection implements Drawable {
     private Vertex[] vertices; // I due vertici della connessione sono tenuti qui dentro
 
     private Material material;
+    private double weight;
 
     // Metodo costruttore 
     Connection(Vertex firstVertex, Vertex secondVertex, Material material){ 

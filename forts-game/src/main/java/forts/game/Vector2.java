@@ -144,9 +144,21 @@ public class Vector2 {
         return dotProduct;
     }
 
+    public Vector2 inverse() { // Metodo per invertire il vettore
+        Vector2 inverseVector;
+
+        inverseVector = new Vector2(-this.x, -this.y);
+
+        return inverseVector;
+    }
+
     @Override
     public String toString() {
         String finalString = "(X: " + this.x + ", Y: " + this.y + ", Magnitude: " + this.magnitude + ")";
         return finalString;
+    }
+
+    public Vector2 clone() { // Ritorna una copia del vettore corrente
+        return new Vector2(this.x, this.y);
     }
 }
