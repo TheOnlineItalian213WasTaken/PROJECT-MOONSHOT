@@ -123,7 +123,7 @@ public class Vertex implements Drawable {
 
     public boolean branchDisperse(Vector2 force) { // Funzione ricorsiva per la dispersione delle forze
         int i, j, length, dispersionDiv;
-        Vector2 finalForce = force;
+        Vector2 finalForce = force.clone();
 
         dispersionDiv = 0;
         length = this.connections.size();
@@ -157,10 +157,12 @@ public class Vertex implements Drawable {
             }
 
             Vector2 finalDispersedForce = force.divide(dispersionDiv).multiply(dotProduct);
+            finalForce.subtract(finalDispersedForce);
 
-            otherVertex.addActingForce(finalDispersedForce);
             otherVertex.branchDisperse(force);
         }
+
+        this.addActingForce(finalForce);
 
         return true;
     }
