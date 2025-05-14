@@ -164,8 +164,6 @@ public class Vertex implements Drawable {
 
         this.addActingForce(finalForce);
 
-        this.addActingForce(finalForce);
-
         return true;
     }
 
@@ -181,13 +179,21 @@ public class Vertex implements Drawable {
     }
 
     public void draw(Camera camera) {
-        sprite = new ImageView(this.spriteDirectory); // Creazione iniziale dell'elemento grafico per il vertice
-        
+        this.sprite = new ImageView(this.spriteDirectory); // Creazione iniziale dell'elemento grafico per il vertice
+
+        camera.getBuildingsPane().getChildren().add(sprite);
 
         this.update(camera);
     }
 
     public void update(Camera camera) {
+        // Modifica della grandezza in base allo zoom della telecamera
+        this.sprite.setScaleX(camera.getZoom());
+        this.sprite.setScaleY(camera.getZoom());
 
+        // Riposizionamento del gui dinamico in base alla posizione root del mondo e posizizone della telecamera
+        Vector2 relativeVector = camera.calculateOffset(this.position);
+        this.sprite.setTranslateX(relativeVector.getX());
+        this.sprite.setTranslateY(relativeVector.getY());
     }
 }
