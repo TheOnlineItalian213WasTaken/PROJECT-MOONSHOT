@@ -10,6 +10,8 @@ public class Connection implements Drawable {
     private Material material;
     private double weight;
 
+    private double baseLength;
+
     // Metodo costruttore 
     Connection(Vertex firstVertex, Vertex secondVertex, Material material){ 
         this.material = material;
@@ -18,6 +20,9 @@ public class Connection implements Drawable {
         this.vertices[0] = firstVertex;
         this.vertices[1] = secondVertex;
         
+        // Calcolo peso
+        this.baseLength = (firstVertex.getPosition().subtract(secondVertex.getPosition())).getMagnitude();
+        this.weight = this.baseLength * material.getDensity();
     }
 
     // Metodi set e get
