@@ -22,13 +22,14 @@ public abstract class Material {
     Material() {
         fatigueBuffer = new double[10]; // Limite massimo di 10 fonti di stress
     }
-    Material(String name, double density, double weightResistance, double compressionFactor, double compressionThreshold, double tensionFactor) {
+    Material(String name, double density, double weightResistance, double compressionFactor, double compressionThreshold, double tensionFactor, String spriteDirectory) {
         this.name = name;
         this.density = density;
         this.weightResistance = weightResistance;
         this.compressionFactor = compressionFactor;
         this.compressionThreshold = compressionThreshold;
         this.tensionFactor = tensionFactor;
+        this.spriteDirectory = spriteDirectory;
 
         this.fatigueBuffer = new double[10]; // Limite massimo di 10 fonti di stress
     }
