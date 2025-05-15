@@ -2,25 +2,26 @@ package forts.game;
 
 import java.util.ArrayList;
 import javafx.scene.image.*;
+import javafx.scene.transform.*;
 
 // Classe che gestisce ogni singolo vertice su cui verranno applicate le forze all'interno del gioco
 
 public class Vertex implements Drawable {
-    String spriteDirectory = "buildVertexIcon.png"; // Directory della sprite per 
+    private String spriteDirectory = "buildVertexIcon.png"; // Directory della sprite per 
 
-    ImageView sprite;
+    private ImageView sprite;
 
-    ArrayList connections; // Tutte le connessioni che originano con / terminano in questo vertica
-    ArrayList startingForces; // Forze che vengono disperse, mentre le actingForces non verranno disperse per la struttura
-    ArrayList actingForces; // Tutte le forze che agiscono su questo vertice in un determinato momento (forze globali (es. gravità) sono escluse)
+    private ArrayList connections; // Tutte le connessioni che originano con / terminano in questo vertica
+    private ArrayList startingForces; // Forze che vengono disperse, mentre le actingForces non verranno disperse per la struttura
+    private ArrayList actingForces; // Tutte le forze che agiscono su questo vertice in un determinato momento (forze globali (es. gravità) sono escluse)
 
-    Vector2 finalForce;
-    Vector2 dispersedForce;
-    Vector2 position; // Posizione nel mondo del vertice
-    Vector2 acceleration; // Accelerazione del vertice
-    Vector2 velocity; // Velocità corrente del vertice
+    private Vector2 finalForce;
+    private Vector2 dispersedForce;
+    private Vector2 position; // Posizione nel mondo del vertice
+    private Vector2 acceleration; // Accelerazione del vertice
+    private Vector2 velocity; // Velocità corrente del vertice
 
-    boolean anchored; // Determina se il vertice è ancorato nel mondo
+    private boolean anchored; // Determina se il vertice è ancorato nel mondo
     // N.B. Un vertice ancorato, non soltanto è completamente escluso da qualsiasi manipolazione fisica dovuta alle forze che agiscono su di esso, ma esso verrà anche contato come punto di dispersione e svuotamento di tutte le forze che potrebbero agire su altri vertici.
     // In parole povere, un vertice ancorato non si muove tranne se si modifica la posizione direttamente.
 
@@ -187,13 +188,19 @@ public class Vertex implements Drawable {
     }
 
     public void update(Camera camera) {
+        Vector2 relativeVector, sizeOffset;
+        Scale scale;
+
         // Modifica della grandezza in base allo zoom della telecamera
-        this.sprite.setScaleX(camera.getZoom());
-        this.sprite.setScaleY(camera.getZoom());
+        scale = new Scale(camera.getZoom(), camera.getZoom(), 0, 0);
+        this.sprite.getTransforms().add(scale);
 
         // Riposizionamento del gui dinamico in base alla posizione root del mondo e posizizone della telecamera
-        Vector2 relativeVector = camera.calculateOffset(this.position);
-        this.sprite.setTranslateX(relativeVector.getX());
-        this.sprite.setTranslateY(relativeVector.getY());
+        sizeOffset = new Vector2(125 * camera.getZoom(), 125 * camera.getZoom());
+        relativeVector = camera.calculateOffset(this.position);
+        relativeVector = relativeVector.subtract(sizeOffset);
+        this.sprite.setLayoutX(relativeVector.getX());
+        this.sprite.setLayoutY(relativeVector.getY());
+        System.out.println("" + relativeVector + relativeVector.add(sizeOffset));
     }
 }
