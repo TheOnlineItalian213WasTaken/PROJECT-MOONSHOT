@@ -4,7 +4,7 @@ public class Wood extends Material {
     String descripion;
     // Costruttore
     public Wood() {
-        super("wood", 0.5, 0.5, 0.5, 0.5, 0.5);
+        super("wood", 0.5, 0.5, 0.5, 0.5, 0.5, "woodSprite.png");
     }
 
     @Override
