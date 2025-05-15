@@ -14,6 +14,7 @@ public class GUIPositionUpdateThread extends Thread {
 
     public void run() {
         while(true) {
+            System.out.println("UPDATE GUI: RUN");
             updateVertices();
         }
     }
