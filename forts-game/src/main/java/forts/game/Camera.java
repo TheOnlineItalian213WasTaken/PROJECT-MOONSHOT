@@ -10,6 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Camera extends Application {
     private Vector2 position; // Variabile per tenere la posizione della telecamera
@@ -32,6 +34,7 @@ public class Camera extends Application {
     private Pane decorationPane;
     private Pane buildingsPane;
     private Pane backgroundPane;
+    private ImageView backgroundImageView;
 
     // Metodi "costruttori" (poiché JavaFX crea dei thread per la gestione dell'interfaccia, non si può creare un vero e proprio oggetto all'interno del main: Bisogna spostare il main all'interno di questa classe)
     public void start(Stage primaryStage) {
@@ -46,10 +49,13 @@ public class Camera extends Application {
         // Creazione dei pane differenti
         rootPane = new StackPane();
 
+        backgroundImageView = new ImageView(new Image("sfondo.jpg"));
+        backgroundImageView.setFitHeight(1080/1.5);
+        backgroundImageView.setFitWidth(1920/1.5);
         terrainPane = new Pane();
         decorationPane = new Pane();
         buildingsPane = new Pane();
-        backgroundPane = new Pane();
+        backgroundPane = new Pane(backgroundImageView);
 
         rootPane.getChildren().addAll(terrainPane, decorationPane, buildingsPane, backgroundPane);
 
@@ -69,12 +75,13 @@ public class Camera extends Application {
         rootScene.setOnKeyPressed(keyInputHandler);
         rootScene.setOnKeyReleased(keyInputHandler);
         
+        
         primaryStage.setScene(rootScene);
         primaryStage.setFullScreen(true);
         primaryStage.setFullScreenExitHint(new String());
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 
-        rootScene.setFill(Color.GRAY);
+        //rootScene.setFill(Color.GRAY);
 
         primaryStage.show();
 

@@ -18,14 +18,6 @@ public class Test extends Application {
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException {
         // Livello 1 (Sfondo Rosso)
-        /*FileInputStream inputstream = new FileInputStream("src/main/resources/buildVertexIcon.png");
-        Image image = new Image(inputstream);
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(300);
-        imageView.setFitHeight(250);
-        imageView.setLayoutX(0);
-        imageView.setLayoutY(0);
-        imageView.setPreserveRatio(true);*/
         Pane layer1 = new Pane();
         Pane layer2 = new Pane();
         Pane layer3 = new Pane();
@@ -50,7 +42,6 @@ public class Test extends Application {
         layer3.setLayoutY(0);
         layer3.setPrefSize(300, 250);
         layer3.setStyle("-fx-background-color: blue;");
-        //layer3.getChildren().add(imageView);
 
         root.getChildren().addAll(layer1, layer2, layer3);
 
