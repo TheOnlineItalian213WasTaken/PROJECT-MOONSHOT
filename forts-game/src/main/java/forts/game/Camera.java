@@ -35,7 +35,9 @@ public class Camera extends Application {
     private Pane terrainPane;
     private Pane decorationPane;
     private Pane buildingsPane;
+    private Pane buildingsVertexPane;
     private Pane backgroundPane;
+
     private ImageView backgroundImageView;
 
     // Metodi "costruttori" (poiché JavaFX crea dei thread per la gestione dell'interfaccia, non si può creare un vero e proprio oggetto all'interno del main: Bisogna spostare il main all'interno di questa classe)
@@ -43,7 +45,7 @@ public class Camera extends Application {
         // Inizializzazione attributi
         this.position = new Vector2();
         this.rootWorldPosition = new Vector2(960, -490);
-        this.zoom = 0.3;
+        this.zoom = 0.2;
         this.cameraVelocity = new Vector2();
         this.keyInputHandler = new KeyInputHandler(this);
         this.mainFort = new Fort(); // TODO: AGGIUNGI FUNZIONI DI CARICMANETO DA FILE
@@ -57,11 +59,13 @@ public class Camera extends Application {
         terrainPane = new Pane();
         decorationPane = new Pane();
         buildingsPane = new Pane();
+        buildingsVertexPane = new Pane();
         backgroundPane = new Pane(backgroundImageView);
 
-        rootPane.getChildren().addAll(terrainPane, decorationPane, buildingsPane, backgroundPane);
+        rootPane.getChildren().addAll(terrainPane, decorationPane, buildingsVertexPane, buildingsPane, backgroundPane);
 
         buildingsPane.toFront();
+        buildingsVertexPane.toFront();
         decorationPane.toFront();
         terrainPane.toFront();
 
@@ -71,7 +75,7 @@ public class Camera extends Application {
         Vertex testVertex2 = new Vertex(new Vector2(0, 1600));
         testVertex2.draw(this);
         mainFort.addVertex(testVertex2);
-        Vertex testVertex3 = new Vertex(new Vector2(0, -1600));
+        Vertex testVertex3 = new Vertex(new Vector2(1600, 1600));
         testVertex3.draw(this);
         mainFort.addVertex(testVertex3);
 
@@ -106,7 +110,7 @@ public class Camera extends Application {
         updateLoop.start();
 
         guiUpdateLoop.setDaemon(true);
-        //guiUpdateLoop.start();
+        guiUpdateLoop.start();
         
     }
 
@@ -209,6 +213,22 @@ public class Camera extends Application {
 
     public void setMainFort(Fort mainFort) {
         this.mainFort = mainFort;
+    }
+
+    public Pane getBuildingsVertexPane() {
+        return buildingsVertexPane;
+    }
+
+    public void setBuildingsVertexPane(Pane buildingsVertexPane) {
+        this.buildingsVertexPane = buildingsVertexPane;
+    }
+
+    public ImageView getBackgroundImageView() {
+        return backgroundImageView;
+    }
+
+    public void setBackgroundImageView(ImageView backgroundImageView) {
+        this.backgroundImageView = backgroundImageView;
     }
 
     // Metodi classe

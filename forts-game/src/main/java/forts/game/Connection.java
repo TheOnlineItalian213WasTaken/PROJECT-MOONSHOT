@@ -1,6 +1,8 @@
 package forts.game;
 
 import java.lang.Math;
+
+import javafx.application.Platform;
 import javafx.scene.image.*;
 import javafx.scene.transform.*;
 
@@ -75,23 +77,33 @@ public class Connection implements Drawable {
     }
 
     public void update(Camera camera) {
-        double relativeScale;
+        double relativeScale, theta;
         Vector2 absolutePosition, relativePosition, sizeOffset;
-        Scale scale;
+        Rotate rotate;
 
         // Modifica della grandezza in base allo zoom della telecamera
         relativeScale = (this.baseLength / 500) * camera.getZoom();
-        scale = new Scale(camera.getZoom(), relativeScale, 0, 0);
-        this.sprite.getTransforms().add(scale);
 
         // Riposizionamento del gui dinamico in base alla posizione root del mondo e posizizone della telecamera
         sizeOffset = new Vector2((100 * camera.getZoom()), (250 * camera.getZoom() * (relativeScale / camera.getZoom())));
         absolutePosition = (this.vertices[0].getPosition().add(this.vertices[1].getPosition())).divide(2);
-        relativePosition = camera.calculateOffset(absolutePosition);
-        relativePosition = relativePosition.subtract(sizeOffset);
-        this.sprite.setLayoutX(relativePosition.getX());
-        this.sprite.setLayoutY(relativePosition.getY());
-        System.out.println("" + relativePosition + relativePosition.add(sizeOffset));
+        relativePosition = camera.calculateOffset(absolutePosition).subtract(sizeOffset);
+
+        //Rotazione in base all'angolo tra i due vertici
+        theta = (this.vertices[0].getPosition().subtract(this.vertices[1].getPosition()).theta(Vector2.yAxis));
+        rotate = new Rotate(theta, sizeOffset.getX(), sizeOffset.getY());
+
+        Platform.runLater(() -> {
+            this.sprite.getTransforms().clear(); // Rimuove tutti i transform, così che il programma non inizia a crashare
+
+            this.sprite.setFitWidth(200 * camera.getZoom());
+            this.sprite.setFitHeight(500 * relativeScale);
+
+            this.sprite.setLayoutX(relativePosition.getX());
+            this.sprite.setLayoutY(relativePosition.getY());
+
+            this.sprite.getTransforms().add(rotate);
+        });
     }
     
 }

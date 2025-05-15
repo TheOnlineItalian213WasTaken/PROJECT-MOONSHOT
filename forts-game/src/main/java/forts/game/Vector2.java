@@ -10,8 +10,8 @@ public class Vector2 {
     private double magnitude; // Modulo del vettore 
 
     // Vettori d'utilità 
-    private static final Vector2 yAxis = new Vector2(0, 1); // Vettore che rappresenta l'asse verticale
-    private static final Vector2 xAxis = new Vector2(1, 0); // Vettore che rappresenta l'asse orizzontale
+    public static final Vector2 yAxis = new Vector2(0, 1); // Vettore che rappresenta l'asse verticale
+    public static final Vector2 xAxis = new Vector2(1, 0); // Vettore che rappresenta l'asse orizzontale
 
     // Metodi costruttori
     Vector2() { // Costruttore vuoto
@@ -134,12 +134,27 @@ public class Vector2 {
         return unitVector;
     }
 
-    public double dotProduct(Vector2 secondVector) { // Ritorna un valore tra -1 e 1 in base alla differenza di direzione dei due vettori
+    public double theta(Vector2 secondVector) {
         double theta;
         double dotProduct;
+        Vector2 unit1, unit2;
+
+        unit1 = this.unit();
+        unit2 = secondVector.unit();
+
+        dotProduct = this.dotProduct(secondVector);
+        theta = Math.toDegrees(Math.acos(dotProduct));
+
+        return theta;
+    }
+    public double dotProduct(Vector2 secondVector) { // Ritorna un valore tra -1 e 1 in base alla differenza di direzione dei due vettori
+        double dotProduct;
+        Vector2 unit1, unit2;
+
+        unit1 = this.unit();
+        unit2 = secondVector.unit();
         
-        theta = Math.atan2(secondVector.getY(), secondVector.getX()) - Math.atan2(this.y, this.x);
-        dotProduct = this.magnitude * secondVector.getMagnitude() * Math.cos(theta);
+        dotProduct = (unit1.getX() * unit2.getX()) + (unit1.getY() * unit2.getY());
         
         return dotProduct;
     }

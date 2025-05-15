@@ -1,6 +1,8 @@
 package forts.game;
 
 import java.util.ArrayList;
+
+import javafx.application.Platform;
 import javafx.scene.image.*;
 import javafx.scene.transform.*;
 
@@ -182,25 +184,26 @@ public class Vertex implements Drawable {
     public void draw(Camera camera) {
         this.sprite = new ImageView(this.spriteDirectory); // Creazione iniziale dell'elemento grafico per il vertice
 
-        camera.getBuildingsPane().getChildren().add(sprite);
+        camera.getBuildingsVertexPane().getChildren().add(sprite);
 
         this.update(camera);
     }
 
     public void update(Camera camera) {
         Vector2 relativeVector, sizeOffset;
-        Scale scale;
 
-        // Modifica della grandezza in base allo zoom della telecamera
-        scale = new Scale(camera.getZoom(), camera.getZoom(), 0, 0);
-        this.sprite.getTransforms().add(scale);
+        this.sprite.getTransforms().clear(); // Rimuove tutti i transform, così che il programma non inizia a crashare
 
         // Riposizionamento del gui dinamico in base alla posizione root del mondo e posizizone della telecamera
         sizeOffset = new Vector2(125 * camera.getZoom(), 125 * camera.getZoom());
-        relativeVector = camera.calculateOffset(this.position);
-        relativeVector = relativeVector.subtract(sizeOffset);
-        this.sprite.setLayoutX(relativeVector.getX());
-        this.sprite.setLayoutY(relativeVector.getY());
-        System.out.println("" + relativeVector + relativeVector.add(sizeOffset));
+        relativeVector = camera.calculateOffset(this.position).subtract(sizeOffset);
+
+        Platform.runLater(() -> {
+            this.sprite.setFitWidth(250 * camera.getZoom());
+            this.sprite.setFitHeight(250 * camera.getZoom());
+
+            this.sprite.setLayoutX(relativeVector.getX());
+            this.sprite.setLayoutY(relativeVector.getY());
+        });
     }
 }

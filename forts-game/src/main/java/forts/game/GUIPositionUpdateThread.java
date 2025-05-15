@@ -13,9 +13,15 @@ public class GUIPositionUpdateThread extends Thread {
     }
 
     public void run() {
-        while(true) {
-            System.out.println("UPDATE GUI: RUN");
+        while (true) {
+            System.out.print(' ');
             updateVertices();
+            updateConnections();
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -26,8 +32,18 @@ public class GUIPositionUpdateThread extends Thread {
         vertices = this.camera.getMainFort().getVertices();
         for (i = 0; i < vertices.size(); i++) {
             Vertex currVertex = (Vertex) vertices.get(i);
-            VertexPositionUpdateThread newThread = new VertexPositionUpdateThread(currVertex, this.camera);
-            Platform.runLater(newThread);
+            currVertex.update(camera);
+        }
+    }
+
+    public void updateConnections() {
+        int i;
+        ArrayList connections;
+
+        connections = this.camera.getMainFort().getConnections();
+        for (i = 0; i < connections.size(); i++) {
+            Connection currConnection = (Connection) connections.get(i);
+            currConnection.update(camera);
         }
     }
 }

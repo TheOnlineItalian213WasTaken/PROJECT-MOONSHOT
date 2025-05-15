@@ -9,6 +9,8 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
     static final double BASE_SPEED = 0.0001; // Velocità di base di quanto la telecamera si muoverà ogni tick
     Camera camera;
 
+    KeyCode lastKey = KeyCode.UP;
+
     KeyInputHandler(Camera camera) {
         this.camera = camera;
     }
@@ -37,6 +39,8 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
             return;
         }
 
+        lastKey = key;
+
         if(keyEvent.isShiftDown()) {
             movementTarget.multiply(2);
         }
@@ -48,7 +52,7 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
         Vector2 movementTarget;
         KeyCode key = keyEvent.getCode();
 
-        if(key == KeyCode.UP || key == KeyCode.DOWN || key == KeyCode.LEFT || key == KeyCode.RIGHT) {
+        if(lastKey == key) {
             movementTarget = new Vector2(0, 0);
         } else {
             return;
