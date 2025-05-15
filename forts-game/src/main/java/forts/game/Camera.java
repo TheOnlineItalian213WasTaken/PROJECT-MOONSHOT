@@ -1,5 +1,7 @@
 package forts.game;
 
+import java.rmi.ConnectIOException;
+
 import javafx.application.*;
 import javafx.event.EventType;
 import javafx.stage.Stage;
@@ -40,8 +42,8 @@ public class Camera extends Application {
     public void start(Stage primaryStage) {
         // Inizializzazione attributi
         this.position = new Vector2();
-        this.rootWorldPosition = new Vector2();
-        this.zoom = 0.35;
+        this.rootWorldPosition = new Vector2(960, -490);
+        this.zoom = 0.3;
         this.cameraVelocity = new Vector2();
         this.keyInputHandler = new KeyInputHandler(this);
         this.mainFort = new Fort(); // TODO: AGGIUNGI FUNZIONI DI CARICMANETO DA FILE
@@ -50,8 +52,8 @@ public class Camera extends Application {
         rootPane = new StackPane();
 
         backgroundImageView = new ImageView(new Image("sfondo.jpg"));
-        backgroundImageView.setFitHeight(1080/1.5);
-        backgroundImageView.setFitWidth(1920/1.5);
+        backgroundImageView.setFitHeight(1080);
+        backgroundImageView.setFitWidth(1920);
         terrainPane = new Pane();
         decorationPane = new Pane();
         buildingsPane = new Pane();
@@ -59,15 +61,26 @@ public class Camera extends Application {
 
         rootPane.getChildren().addAll(terrainPane, decorationPane, buildingsPane, backgroundPane);
 
-        Vertex testVertex = new Vertex(new Vector2(200, 300));
+        buildingsPane.toFront();
+        decorationPane.toFront();
+        terrainPane.toFront();
+
+        Vertex testVertex = new Vertex(new Vector2(0, 300));
         testVertex.draw(this);
         mainFort.addVertex(testVertex);
-        testVertex = new Vertex(new Vector2(500, 300));
-        testVertex.draw(this);
-        mainFort.addVertex(testVertex);
-        testVertex = new Vertex(new Vector2(200, 700));
-        testVertex.draw(this);
-        mainFort.addVertex(testVertex);
+        Vertex testVertex2 = new Vertex(new Vector2(0, 1600));
+        testVertex2.draw(this);
+        mainFort.addVertex(testVertex2);
+        Vertex testVertex3 = new Vertex(new Vector2(0, -1600));
+        testVertex3.draw(this);
+        mainFort.addVertex(testVertex3);
+
+        Connection testConnection = new Connection(testVertex2, testVertex, new Wood());
+        testConnection.draw(this);
+        mainFort.addConnection(testConnection);
+        Connection testConnection2 = new Connection(testVertex3, testVertex, new Wood());
+        testConnection2.draw(this);
+        mainFort.addConnection(testConnection2);
 
         // Creazione della scene e messa in mostra della finestra
         rootScene = new Scene(rootPane);
@@ -93,7 +106,7 @@ public class Camera extends Application {
         updateLoop.start();
 
         guiUpdateLoop.setDaemon(true);
-        guiUpdateLoop.start();
+        //guiUpdateLoop.start();
         
     }
 
