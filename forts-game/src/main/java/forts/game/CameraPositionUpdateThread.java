@@ -8,9 +8,12 @@ public class CameraPositionUpdateThread extends Thread {
     }
 
     public void run() {
-        KeyInputHandler keyInputHandler = this.camera.getKeyInputHandler();
         while(true) {
-            keyInputHandler.movementHandle(); // Gestione movimento
+            movementHandle(); // Gestione movimento
         }
+    }
+
+    public void movementHandle() {
+        this.camera.setPosition(this.camera.getPosition().add(this.camera.getCameraVelocity()));
     }
 }
