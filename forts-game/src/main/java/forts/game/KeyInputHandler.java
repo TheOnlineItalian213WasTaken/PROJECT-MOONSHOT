@@ -1,6 +1,7 @@
 package forts.game;
 
 import javafx.scene.input.*;
+import javafx.application.Platform;
 import javafx.event.*;
 
 // Classe che gestisce ogni evento relativo alla tastiera
@@ -27,6 +28,8 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
         Vector2 movementTarget;
         KeyCode key = keyEvent.getCode();
 
+        System.out.println(key);
+
         if(key == KeyCode.UP) {
             movementTarget = new Vector2(0, BASE_SPEED);
         } else if(key == KeyCode.DOWN) {
@@ -46,6 +49,7 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
         }
 
         camera.setCameraVelocity(movementTarget);
+        System.out.println("" + movementTarget + this.camera.getCameraVelocity());
     }
 
     public void movementEnd(KeyEvent keyEvent) {
@@ -59,9 +63,5 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
         }
 
         camera.setCameraVelocity(movementTarget);
-    }
-
-    public void movementHandle() {
-        this.camera.setPosition(this.camera.getPosition().add(this.camera.getCameraVelocity()));
     }
 }
