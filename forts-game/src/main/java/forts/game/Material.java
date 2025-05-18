@@ -2,6 +2,7 @@ package forts.game;
 
 public abstract class Material {
     protected String name; // Nome del materiale
+    protected String description; // Descrizione del materiale
     protected String spriteDirectory; // Directory della sprite per il materiale (LE SPRITE SONO 200x800)
     
     protected double density; // Densità del materiale in kg/m^3
@@ -41,6 +42,12 @@ public abstract class Material {
 
     public void setName(String name) {
         this.name = name;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getSpriteDirectory() {
