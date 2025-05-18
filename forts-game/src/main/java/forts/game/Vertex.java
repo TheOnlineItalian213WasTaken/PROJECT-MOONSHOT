@@ -185,7 +185,13 @@ public class Vertex implements Drawable {
         this.sprite = new ImageView(this.spriteDirectory); // Creazione iniziale dell'elemento grafico per il vertice
 
         camera.getBuildingsVertexPane().getChildren().add(sprite);
-
+        VertexCreationHandler handler = camera.getVertexCreationHandler();
+        if (handler != null) {
+            this.sprite.setOnMouseClicked(e -> {
+                e.consume();
+                handler.onVertexClicked(this);
+            });
+        }
         this.update(camera);
     }
 
