@@ -25,6 +25,7 @@ public class Camera extends Application {
 
     // Ascoltatori / event handler
     private KeyInputHandler keyInputHandler;
+    private VertexCreationHandler vertexCreationHandler; // Ascoltatore per la creazione di vertici e connessioni
 
     // Stoccaggio di informazioni relative al forte
     private Fort mainFort;
@@ -48,6 +49,7 @@ public class Camera extends Application {
         this.zoom = 0.2;
         this.cameraVelocity = new Vector2();
         this.keyInputHandler = new KeyInputHandler(this);
+        this.vertexCreationHandler = new VertexCreationHandler(this);
         this.mainFort = new Fort(); // TODO: AGGIUNGI FUNZIONI DI CARICMANETO DA FILE
 
         // Creazione dei pane differenti
@@ -205,6 +207,13 @@ public class Camera extends Application {
 
     public void setKeyInputHandler(KeyInputHandler keyInputHandler) {
         this.keyInputHandler = keyInputHandler;
+    }
+     public VertexCreationHandler getVertexCreationHandler() {
+        return vertexCreationHandler;
+    }
+
+    public void setVertexCreationHandler(VertexCreationHandler handler) {
+        this.vertexCreationHandler = handler;
     }
 
     public Fort getMainFort() {
