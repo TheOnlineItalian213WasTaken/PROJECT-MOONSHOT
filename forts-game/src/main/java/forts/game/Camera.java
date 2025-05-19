@@ -64,6 +64,13 @@ public class Camera extends Application {
         buildingsVertexPane = new Pane();
         backgroundPane = new Pane(backgroundImageView);
 
+        rootPane.setMouseTransparent(true);
+        terrainPane.setMouseTransparent(true);
+        decorationPane.setMouseTransparent(true);
+        buildingsVertexPane.setMouseTransparent(true);
+        buildingsPane.setMouseTransparent(true);
+        backgroundPane.setMouseTransparent(true);
+
         rootPane.getChildren().addAll(terrainPane, decorationPane, buildingsVertexPane, buildingsPane, backgroundPane);
 
         buildingsPane.toFront();
@@ -93,7 +100,7 @@ public class Camera extends Application {
 
         rootScene.setOnKeyPressed(keyInputHandler);
         rootScene.setOnKeyReleased(keyInputHandler);
-        
+        rootScene.setOnMouseClicked(vertexCreationHandler);
         
         primaryStage.setScene(rootScene);
         primaryStage.setFullScreen(true);
@@ -247,6 +254,16 @@ public class Camera extends Application {
         finishedVector = baseVector.subtract(this.position).multiply(this.zoom).add(this.rootWorldPosition);
 
         finishedVector = new Vector2(finishedVector.getX(), -finishedVector.getY());
+
+        return finishedVector;
+    }
+
+    public Vector2 inverseOffset(Vector2 baseVector){
+        Vector2 finishedVector;
+
+        finishedVector = new Vector2(baseVector.getX(), -baseVector.getY());
+
+        finishedVector = finishedVector.subtract(this.rootWorldPosition).divide(this.zoom).add(this.position);
 
         return finishedVector;
     }

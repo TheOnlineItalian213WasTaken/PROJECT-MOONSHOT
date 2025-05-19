@@ -55,7 +55,7 @@ public class Connection implements Drawable {
 
         length = this.vertices.length;
         for(i = 0; i < length; i++) {
-            if(!(this.vertices[i] == baseVertex)) { // TODO: Controlla se questo da errori, è probabile che il Java non funzioni così.
+            if((this.vertices[i] == baseVertex)) { // TODO: Controlla se questo da errori, è probabile che il Java non funzioni così.
                 continue;
             }
 
@@ -69,11 +69,13 @@ public class Connection implements Drawable {
 
     public void draw(Camera camera) {
         this.sprite = new ImageView(this.material.getSpriteDirectory()); // Creazione iniziale dell'elemento grafico per il vertice
+        this.sprite.setVisible(false);
         this.sprite.setPreserveRatio(false);
 
         camera.getBuildingsPane().getChildren().add(sprite);
 
         this.update(camera);
+        this.sprite.setVisible(true);
     }
 
     public void update(Camera camera) {

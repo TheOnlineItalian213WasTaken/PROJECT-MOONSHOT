@@ -183,16 +183,22 @@ public class Vertex implements Drawable {
 
     public void draw(Camera camera) {
         this.sprite = new ImageView(this.spriteDirectory); // Creazione iniziale dell'elemento grafico per il vertice
+        this.sprite.setVisible(false);
 
         camera.getBuildingsVertexPane().getChildren().add(sprite);
+        
+        System.out.println(this.sprite.getBoundsInParent());
+
         VertexCreationHandler handler = camera.getVertexCreationHandler();
-        if (handler != null) {
-            this.sprite.setOnMouseClicked(e -> {
-                e.consume();
-                handler.onVertexClicked(this);
-            });
-        }
+
+        this.sprite.setOnMouseClicked(e -> {
+            System.out.print("handler");
+            e.consume();
+            handler.onVertexClicked(this);
+        });
+
         this.update(camera);
+        this.sprite.setVisible(true);
     }
 
     public void update(Camera camera) {
