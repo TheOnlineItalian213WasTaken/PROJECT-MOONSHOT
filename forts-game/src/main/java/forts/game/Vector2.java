@@ -137,13 +137,16 @@ public class Vector2 {
     public double theta(Vector2 secondVector) {
         double theta;
         double dotProduct;
-        Vector2 unit1, unit2;
+        Vector2 unit1;
 
         unit1 = this.unit();
-        unit2 = secondVector.unit();
 
         dotProduct = this.dotProduct(secondVector);
         theta = Math.toDegrees(Math.acos(dotProduct));
+
+        if(unit1.getX() < 0) {
+            theta = -theta;
+        }
 
         return theta;
     }
