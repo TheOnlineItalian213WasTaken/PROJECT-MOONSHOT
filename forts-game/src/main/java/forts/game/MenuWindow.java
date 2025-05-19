@@ -34,9 +34,11 @@ public class MenuWindow extends Application {
         Button exitButton = createMenuButton("Esci", EXIT_ICON);
 
         playButton.setOnAction(e -> {
-            // Avvia il gioco (puoi cambiare questa logica)
+            // Avvia la finestra Camera
+            Stage cameraStage = new Stage();
+            Camera cameraApp = new Camera();
+            cameraApp.start(cameraStage);
             primaryStage.close();
-            // Se vuoi lanciare la finestra principale
         });
 
         exitButton.setOnAction(e -> {
