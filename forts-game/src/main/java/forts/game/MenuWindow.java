@@ -9,12 +9,13 @@ import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
+import javafx.scene.control.ContentDisplay;
 
 public class MenuWindow extends Application {
 
-    private static final String BACKGROUND_IMAGE = "sfondo.jpg"; // Cambia con il tuo sfondo
-    private static final String PLAY_ICON = "buildVertexIcon.png";   // Cambia con la tua icona
-    private static final String EXIT_ICON = "woodSprite.png";     // Cambia con la tua icona
+    private static final String BACKGROUND_IMAGE = "sfondo2.png"; // Cambia con il tuo sfondo
+    private static final String PLAY_ICON = "iconaMartello.png";   // Cambia con la tua icona
+    private static final String EXIT_ICON = "iconaExit.png";     // Cambia con la tua icona
 
     @Override
     public void start(Stage primaryStage) {
@@ -26,10 +27,14 @@ public class MenuWindow extends Application {
 
         // Layout centrale per i bottoni
         VBox menuBox = new VBox(30);
-        menuBox.setAlignment(Pos.CENTER);
+        menuBox.setAlignment(Pos.CENTER_LEFT);
+        menuBox.setTranslateX(60); // Sposta i bottoni verso destra (distanza dal bordo sinistro)
+        menuBox.setPrefWidth(400); // Larghezza preferita per evitare che i bottoni tocchino il bordo
 
         // Bottone "Gioca"
         Button playButton = createMenuButton("Gioca", PLAY_ICON);
+        // Bottone "Impostazioni"
+        Button settingsButton = createMenuButton("Impostazioni", "iconaSettings.png"); // Cambia con la tua icona impostazioni
         // Bottone "Esci"
         Button exitButton = createMenuButton("Esci", EXIT_ICON);
 
@@ -41,11 +46,16 @@ public class MenuWindow extends Application {
             primaryStage.close();
         });
 
+        settingsButton.setOnAction(e -> {
+            // Qui puoi aprire una finestra di impostazioni (da implementare)
+            System.out.println("Impostazioni cliccato!");
+        });
+
         exitButton.setOnAction(e -> {
             primaryStage.close();
         });
 
-        menuBox.getChildren().addAll(playButton, exitButton);
+        menuBox.getChildren().addAll(playButton, settingsButton, exitButton);
 
         StackPane root = new StackPane(background, menuBox);
 
@@ -67,6 +77,8 @@ public class MenuWindow extends Application {
         button.setPrefWidth(300);
         button.setPrefHeight(70);
         button.setGraphicTextGap(20);
+        button.setContentDisplay(ContentDisplay.LEFT); // <-- Allinea icona e testo a sinistra
+        button.setAlignment(Pos.CENTER_LEFT);          // <-- Allinea il contenuto del bottone a sinistra
         return button;
     }
 
