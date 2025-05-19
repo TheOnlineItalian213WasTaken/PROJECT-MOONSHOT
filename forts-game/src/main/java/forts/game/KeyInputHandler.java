@@ -1,13 +1,16 @@
 package forts.game;
 
 import javafx.scene.input.*;
+
+import java.time.Instant;
+
 import javafx.application.Platform;
 import javafx.event.*;
 
 // Classe che gestisce ogni evento relativo alla tastiera
 
 public class KeyInputHandler implements EventHandler<KeyEvent> {
-    static final double BASE_SPEED = 0.0001; // Velocità di base di quanto la telecamera si muoverà ogni tick
+    static final double BASE_SPEED = 0.00001; // Velocità di base di quanto la telecamera si muoverà ogni tick
     Camera camera;
 
     KeyCode lastKey = KeyCode.UP;
