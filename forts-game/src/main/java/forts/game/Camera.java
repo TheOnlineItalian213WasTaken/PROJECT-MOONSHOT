@@ -55,9 +55,12 @@ public class Camera extends Application {
         // Creazione dei pane differenti
         rootPane = new StackPane();
 
-        backgroundImageView = new ImageView(new Image("sfondo.jpg"));
-        backgroundImageView.setFitHeight(1080);
-        backgroundImageView.setFitWidth(1920);
+        backgroundImageView = new ImageView(new Image("sfondo.png"));
+        backgroundImageView.setPreserveRatio(false); // Non mantiene il rapporto, riempie tutto
+        // Bind larghezza e altezza dell'immagine alle dimensioni del rootPane
+        backgroundImageView.fitWidthProperty().bind(rootPane.widthProperty());
+        backgroundImageView.fitHeightProperty().bind(rootPane.heightProperty());
+
         terrainPane = new Pane();
         decorationPane = new Pane();
         buildingsPane = new Pane();
