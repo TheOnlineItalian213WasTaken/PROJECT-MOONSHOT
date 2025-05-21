@@ -1,10 +1,11 @@
 package forts.game;
 
+import java.io.Serializable;
 import java.lang.Math;
 
 // Classe necessaria per la gestione dei vettori di posizione all'interno del gioco.
 
-public class Vector2 {
+public class Vector2 implements Serializable {
     private double x;
     private double y;
     private double magnitude; // Modulo del vettore 

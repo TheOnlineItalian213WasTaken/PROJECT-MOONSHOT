@@ -1,6 +1,8 @@
 package forts.game;
 
-public class Wood extends Material {
+import java.io.Serializable;
+
+public class Wood extends Material implements Serializable{
     
     // Costruttore
     public Wood() {

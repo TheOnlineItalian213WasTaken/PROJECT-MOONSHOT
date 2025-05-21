@@ -1,5 +1,6 @@
 package forts.game;
 
+import java.io.Serializable;
 
 import javafx.application.*;
 import javafx.event.EventType;
@@ -15,8 +16,9 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.io.Serializable;
 
-public class Camera extends Application {
+public class Camera extends Application implements Serializable{
     private static String backgroundImageFile = "sfondo.png"; // default
 
     public static void setBackgroundImage(String filename) {
@@ -31,22 +33,22 @@ public class Camera extends Application {
     private Vector2 cameraVelocity; // Vettore che verrà aggiunto alla posizione della camera ogni tick
 
     // Ascoltatori / event handler
-    private KeyInputHandler keyInputHandler;
-    private VertexCreationHandler vertexCreationHandler; // Ascoltatore per la creazione di vertici e connessioni
+    private transient KeyInputHandler keyInputHandler;
+    private transient VertexCreationHandler vertexCreationHandler; // Ascoltatore per la creazione di vertici e connessioni
 
     // Stoccaggio di informazioni relative al forte
     private Fort mainFort;
 
-    private Scene rootScene;
-    private StackPane rootPane;
+    private transient Scene rootScene;
+    private transient StackPane rootPane;
     
-    private Pane terrainPane;
-    private Pane decorationPane;
-    private Pane buildingsPane;
-    private Pane buildingsVertexPane;
-    private Pane backgroundPane;
+    private transient Pane terrainPane;
+    private transient Pane decorationPane;
+    private transient Pane buildingsPane;
+    private transient Pane buildingsVertexPane;
+    private transient Pane backgroundPane;
 
-    private ImageView backgroundImageView;
+    private transient ImageView backgroundImageView;
 
     // Variabile per tenere traccia se si sta usando il ferro per le connessioni
     private boolean useIronForConnections = false;
@@ -193,18 +195,93 @@ public class Camera extends Application {
 
         rootPane.getChildren().add(ironButton);
 
-        // Logica di selezione esclusiva tra legno e ferro
-        woodButton.setOnAction(e -> {
-            useIronForConnections = false;
-            woodButton.setStyle("-fx-background-radius: 30; -fx-background-color: #deb887;"); // Colore attivo per legno
-            ironButton.setStyle("-fx-background-radius: 30; -fx-background-color: rgba(80,80,80,0.8);");
+        //  Bottone per SALVARE la partita
+        Button saveButton = new Button("Salva");
+        saveButton.setStyle("-fx-font-size: 16px; -fx-background-radius: 20; -fx-background-color: #4caf50; -fx-text-fill: white;");
+        saveButton.setPrefWidth(90);
+        saveButton.setPrefHeight(40);
+        StackPane.setAlignment(saveButton, Pos.BOTTOM_LEFT);
+        StackPane.setMargin(saveButton, new Insets(0, 0, 30, 30));
+        rootPane.getChildren().add(saveButton);
+
+        saveButton.setOnAction(e -> {
+            try (java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(new java.io.FileOutputStream("fort_save.ser"))) {
+                out.writeObject(mainFort);
+                System.out.println("Partita salvata!");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+        
+        // Bottone per CARICARE la partita
+        Button loadButton = new Button("Carica");
+        loadButton.setStyle("-fx-font-size: 16px; -fx-background-radius: 20; -fx-background-color: #2196f3; -fx-text-fill: white;");
+        loadButton.setPrefWidth(90);
+        loadButton.setPrefHeight(40);
+        // Posiziona il bottone "Carica" leggermente a destra di "Salva"
+        StackPane.setAlignment(loadButton, Pos.BOTTOM_LEFT);
+        StackPane.setMargin(loadButton, new Insets(0, 0, 30, 130)); // 130px per non sovrapporsi a "Salva"
+        rootPane.getChildren().add(loadButton);
+
+        loadButton.setOnAction(e -> {
+            try (java.io.ObjectInputStream in = new java.io.ObjectInputStream(new java.io.FileInputStream("fort_save.ser"))) {
+                Fort loadedFort = (Fort) in.readObject();
+                setMainFort(loadedFort);
+                // Ridisegna tutto
+                buildingsPane.getChildren().clear();
+                buildingsVertexPane.getChildren().clear();
+                for (Object vObj : loadedFort.getVertices()) {
+                    Vertex v = (Vertex) vObj;
+                    v.draw(this);
+                }
+                for (Object cObj : loadedFort.getConnections()) {
+                    Connection c = (Connection) cObj;
+                    c.draw(this);
+                }
+                System.out.println("Partita caricata!");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
 
-        ironButton.setOnAction(e -> {
-            useIronForConnections = true;
-            ironButton.setStyle("-fx-background-radius: 30; -fx-background-color: #b87333;"); // Colore attivo per ferro
-            woodButton.setStyle("-fx-background-radius: 30; -fx-background-color: rgba(139,69,19,0.8);");
+
+        // Bottone per RESETTARE la struttura
+        Button resetButton = new Button("Reset");
+        resetButton.setStyle("-fx-font-size: 16px; -fx-background-radius: 20; -fx-background-color: #f44336; -fx-text-fill: white;");
+        resetButton.setPrefWidth(90);
+        resetButton.setPrefHeight(40);
+        // Posiziona il bottone "Reset" ancora più a destra di "Carica"
+        StackPane.setAlignment(resetButton, Pos.BOTTOM_LEFT);
+        StackPane.setMargin(resetButton, new Insets(0, 0, 30, 230)); // 230px per non sovrapporsi agli altri
+        rootPane.getChildren().add(resetButton);
+
+        resetButton.setOnAction(e -> {
+            // Svuota la struttura attuale
+            mainFort = new Fort();
+            buildingsPane.getChildren().clear();
+            buildingsVertexPane.getChildren().clear();
+
+            // Ricrea i vertici e le connessioni iniziali
+            Vertex testVertex4 = new Vertex(new Vector2(0, 300));
+            testVertex4.draw(this);
+            mainFort.addVertex(testVertex4);
+            Vertex testVertex5 = new Vertex(new Vector2(0, 1600));
+            testVertex5.draw(this);
+            mainFort.addVertex(testVertex5);
+            Vertex testVertex6 = new Vertex(new Vector2(1600, 1600));
+            testVertex6.draw(this);
+            mainFort.addVertex(testVertex6);
+
+            Connection testConnection3 = new Connection(testVertex2, testVertex, new Wood());
+            testConnection3.draw(this);
+            mainFort.addConnection(testConnection3);
+            Connection testConnection4 = new Connection(testVertex3, testVertex, new Wood());
+            testConnection4.draw(this);
+            mainFort.addConnection(testConnection4);
+
+            System.out.println("Struttura resettata!");
         });
+
 
         // Gestione di thread secondari
         CameraPositionUpdateThread updateLoop = new CameraPositionUpdateThread(this);

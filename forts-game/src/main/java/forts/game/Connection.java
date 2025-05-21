@@ -5,13 +5,14 @@ import java.lang.Math;
 import javafx.application.Platform;
 import javafx.scene.image.*;
 import javafx.scene.transform.*;
+import java.io.Serializable;
 
 // Classe che gestisce le connessioni tra vertici di costruzione
 
-public class Connection implements Drawable {
+public class Connection implements Drawable, Serializable {
     private Vertex[] vertices; // I due vertici della connessione sono tenuti qui dentro
 
-    private ImageView sprite;
+    private transient ImageView sprite; // <-- AGGIUNTO transient
 
     private Material material;
     private double weight;
