@@ -39,7 +39,6 @@ public class MenuWindow extends Application {
         Button exitButton = createMenuButton("Esci", EXIT_ICON);
 
         playButton.setOnAction(e -> {
-            // Avvia la finestra Camera
             Stage cameraStage = new Stage();
             Camera cameraApp = new Camera();
             cameraApp.start(cameraStage);
@@ -47,8 +46,9 @@ public class MenuWindow extends Application {
         });
 
         settingsButton.setOnAction(e -> {
-            // Qui puoi aprire una finestra di impostazioni (da implementare)
-            System.out.println("Impostazioni cliccato!");
+            Stage settingsStage = new Stage();
+            SettingsWindow settingsApp = new SettingsWindow();
+            settingsApp.start(settingsStage);
         });
 
         exitButton.setOnAction(e -> {

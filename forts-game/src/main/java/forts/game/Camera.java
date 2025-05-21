@@ -1,9 +1,10 @@
 package forts.game;
 
-import java.rmi.ConnectIOException;
 
 import javafx.application.*;
 import javafx.event.EventType;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -16,6 +17,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Camera extends Application {
+    private static String backgroundImageFile = "sfondo.png"; // default
+
+    public static void setBackgroundImage(String filename) {
+        backgroundImageFile = filename;
+    }
+
     private Vector2 position; // Variabile per tenere la posizione della telecamera
     private Vector2 rootWorldPosition; // La posizione del punto (0, 0) nel mondo, questo valore è basato sulla grandezza dello schermo
     private double zoom; // Variabile per tenere lo zoom della telecamera
@@ -55,9 +62,8 @@ public class Camera extends Application {
         // Creazione dei pane differenti
         rootPane = new StackPane();
 
-        backgroundImageView = new ImageView(new Image("sfondo.png"));
-        backgroundImageView.setPreserveRatio(false); // Non mantiene il rapporto, riempie tutto
-        // Bind larghezza e altezza dell'immagine alle dimensioni del rootPane
+        backgroundImageView = new ImageView(new Image(backgroundImageFile));
+        backgroundImageView.setPreserveRatio(false);
         backgroundImageView.fitWidthProperty().bind(rootPane.widthProperty());
         backgroundImageView.fitHeightProperty().bind(rootPane.heightProperty());
 
@@ -67,14 +73,8 @@ public class Camera extends Application {
         buildingsVertexPane = new Pane();
         backgroundPane = new Pane(backgroundImageView);
 
-        rootPane.setMouseTransparent(true);
-        terrainPane.setMouseTransparent(true);
-        decorationPane.setMouseTransparent(true);
-        buildingsVertexPane.setMouseTransparent(true);
-        buildingsPane.setMouseTransparent(true);
-        backgroundPane.setMouseTransparent(true);
-
-        rootPane.getChildren().addAll(terrainPane, decorationPane, buildingsVertexPane, buildingsPane, backgroundPane);
+        // Ordine corretto dei pane:
+        rootPane.getChildren().addAll(backgroundPane, terrainPane, decorationPane, buildingsVertexPane, buildingsPane);
 
         buildingsPane.toFront();
         buildingsVertexPane.toFront();
@@ -114,6 +114,28 @@ public class Camera extends Application {
 
         primaryStage.show();
 
+        // Pulsante per tornare al menu in alto a destra
+        Button menuButton = new Button("Menu");
+        menuButton.setStyle("-fx-font-size: 18px; -fx-background-radius: 20; -fx-background-color: rgba(30,30,30,0.8); -fx-text-fill: white;");
+        menuButton.setPrefWidth(100);
+        menuButton.setPrefHeight(40);
+
+        // Posiziona il pulsante in alto a destra
+        StackPane.setAlignment(menuButton, Pos.TOP_RIGHT);
+        StackPane.setMargin(menuButton, new Insets(20, 20, 0, 0));
+        rootPane.getChildren().add(menuButton);
+
+        menuButton.setOnAction(e -> {
+            primaryStage.close();
+            Stage menuStage = new Stage();
+            MenuWindow menuApp = new MenuWindow();
+            try {
+                menuApp.start(menuStage);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
         // Gestione di thread secondari
         CameraPositionUpdateThread updateLoop = new CameraPositionUpdateThread(this);
         GUIPositionUpdateThread guiUpdateLoop = new GUIPositionUpdateThread(this);
@@ -123,7 +145,6 @@ public class Camera extends Application {
 
         guiUpdateLoop.setDaemon(true);
         guiUpdateLoop.start();
-        
     }
 
     public static void main(String[] args) {
