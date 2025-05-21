@@ -94,7 +94,8 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
                 }
             }
 
-            Connection conn = new Connection(selectedVertex, nearest, new Wood());
+            Material material = camera.isUseIronForConnections() ? new Iron() : new Wood();
+            Connection conn = new Connection(selectedVertex, nearest, material);
 
             selectedVertex.getConnections().add(conn);
             nearest.getConnections().add(conn);
@@ -107,7 +108,8 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
             newVertex.draw(camera);
             camera.getMainFort().addVertex(newVertex);
 
-            Connection conn = new Connection(selectedVertex, newVertex, new Wood());
+            Material material = camera.isUseIronForConnections() ? new Iron() : new Wood();
+            Connection conn = new Connection(selectedVertex, newVertex, material);
 
             selectedVertex.getConnections().add(conn);
             newVertex.getConnections().add(conn);

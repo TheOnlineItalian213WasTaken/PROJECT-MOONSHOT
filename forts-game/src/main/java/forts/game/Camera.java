@@ -48,6 +48,17 @@ public class Camera extends Application {
 
     private ImageView backgroundImageView;
 
+    // Variabile per tenere traccia se si sta usando il ferro per le connessioni
+    private boolean useIronForConnections = false;
+
+    public boolean isUseIronForConnections() {
+        return useIronForConnections;
+    }
+
+    public void setUseIronForConnections(boolean useIronForConnections) {
+        this.useIronForConnections = useIronForConnections;
+    }
+
     // Metodi "costruttori" (poiché JavaFX crea dei thread per la gestione dell'interfaccia, non si può creare un vero e proprio oggetto all'interno del main: Bisogna spostare il main all'interno di questa classe)
     public void start(Stage primaryStage) {
         // Inizializzazione attributi
@@ -110,7 +121,6 @@ public class Camera extends Application {
         primaryStage.setFullScreenExitHint(new String());
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 
-        //rootScene.setFill(Color.GRAY);
 
         primaryStage.show();
 
@@ -134,6 +144,66 @@ public class Camera extends Application {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        });
+
+        // Pulsante per usare il legno nelle connessioni (con icona e in basso al centro, a sinistra)
+        Image woodImg = new Image("woodSprite.png"); // Assicurati che l'immagine esista
+        ImageView woodIcon = new ImageView(woodImg);
+        woodIcon.setFitWidth(40);
+        woodIcon.setFitHeight(40);
+
+        Button woodButton = new Button();
+        woodButton.setGraphic(woodIcon);
+        woodButton.setStyle("-fx-background-radius: 30; -fx-background-color: rgba(139,69,19,0.8);");
+        woodButton.setPrefWidth(60);
+        woodButton.setPrefHeight(60);
+
+        // Posiziona il pulsante in basso al centro, leggermente a sinistra
+        StackPane.setAlignment(woodButton, Pos.BOTTOM_CENTER);
+        StackPane.setMargin(woodButton, new Insets(0, 100, 30, 0)); // 40px verso sinistra
+        rootPane.getChildren().add(woodButton);
+
+        // Pulsante per usare il ferro nelle connessioni (già presente, lo spostiamo a destra)
+        Image ironImg = new Image("ironSprite.png");
+        ImageView ironIcon = new ImageView(ironImg);
+        ironIcon.setFitWidth(40);
+        ironIcon.setFitHeight(40);
+
+        Button ironButton = new Button();
+        ironButton.setGraphic(ironIcon);
+        ironButton.setStyle("-fx-background-radius: 30; -fx-background-color: rgba(80,80,80,0.8);");
+        ironButton.setPrefWidth(60);
+        ironButton.setPrefHeight(60);
+
+        // Posiziona il pulsante in basso al centro, leggermente a destra
+        StackPane.setAlignment(ironButton, Pos.BOTTOM_CENTER);
+        StackPane.setMargin(ironButton, new Insets(0, 0, 30, 40)); // 40px verso sinistra
+
+        woodButton.setOnAction(e -> {
+            useIronForConnections = false;
+            woodButton.setStyle("-fx-background-radius: 30; -fx-background-color: #deb887;"); // Colore attivo per legno
+            ironButton.setStyle("-fx-background-radius: 30; -fx-background-color: rgba(80,80,80,0.8);");
+        });
+        ironButton.setOnAction(e -> {
+            useIronForConnections = true;
+            ironButton.setStyle("-fx-background-radius: 30; -fx-background-color: #b87333;"); // Colore attivo per ferro
+            woodButton.setStyle("-fx-background-radius: 30; -fx-background-color: rgba(139,69,19,0.8);");
+        });
+
+
+        rootPane.getChildren().add(ironButton);
+
+        // Logica di selezione esclusiva tra legno e ferro
+        woodButton.setOnAction(e -> {
+            useIronForConnections = false;
+            woodButton.setStyle("-fx-background-radius: 30; -fx-background-color: #deb887;"); // Colore attivo per legno
+            ironButton.setStyle("-fx-background-radius: 30; -fx-background-color: rgba(80,80,80,0.8);");
+        });
+
+        ironButton.setOnAction(e -> {
+            useIronForConnections = true;
+            ironButton.setStyle("-fx-background-radius: 30; -fx-background-color: #b87333;"); // Colore attivo per ferro
+            woodButton.setStyle("-fx-background-radius: 30; -fx-background-color: rgba(139,69,19,0.8);");
         });
 
         // Gestione di thread secondari
