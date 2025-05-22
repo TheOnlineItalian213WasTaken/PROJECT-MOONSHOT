@@ -153,6 +153,8 @@ public class PhysicsHandler extends Thread {
             targetPosition.setY(Math.clamp(targetPosition.getY(), 0, Double.POSITIVE_INFINITY));
 
             vertex.setPosition(targetPosition);
+
+            //System.out.println(vertex.getPosition() + "  " + velocity);
         }
 
 

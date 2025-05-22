@@ -25,6 +25,7 @@ public class SettingsWindow extends Application {
         previews.setAlignment(Pos.CENTER);
 
         ToggleGroup group = new ToggleGroup();
+        RadioButton selectedRadio = null;
 
         for (int i = 0; i < backgrounds.length; i++) {
             VBox box = new VBox(8);
@@ -40,10 +41,12 @@ public class SettingsWindow extends Application {
             RadioButton radio = new RadioButton(labels[i]);
             radio.setToggleGroup(group);
             radio.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
-            if (i == 0) radio.setSelected(true);
+            // Nessun radio selezionato di default
 
             int idx = i;
-            radio.setOnAction(e -> selectedBackground = backgrounds[idx]);
+            radio.setOnAction(e -> {
+                selectedBackground = backgrounds[idx];
+            });
 
             box.getChildren().addAll(preview, radio);
             previews.getChildren().add(box);
@@ -59,7 +62,11 @@ public class SettingsWindow extends Application {
         apply.setPrefWidth(160);
         apply.setPrefHeight(40);
         apply.setOnAction(e -> {
-            Camera.setBackgroundImage(selectedBackground); // Assicurati che selectedBackground sia il nome giusto!
+            RadioButton selected = (RadioButton) group.getSelectedToggle();
+            if (selected != null) {
+                int idx = previews.getChildren().indexOf(selected.getParent());
+                Camera.setBackgroundImage(backgrounds[idx]);
+            }
             primaryStage.close();
         });
 

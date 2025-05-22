@@ -4,10 +4,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.event.*;
 import javafx.application.Platform;
 import java.util.ArrayList;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.Media;
 
-public class VertexCreationHandler implements EventHandler<MouseEvent>  {
+public class VertexCreationHandler implements EventHandler<MouseEvent> {
     private Camera camera;
     private Vertex selectedVertex = null;
+    private Sound sound = new Sound();
 
     public VertexCreationHandler(Camera camera) {
         this.camera = camera;
@@ -84,20 +88,27 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
             }
 
             // Crea solo la connessione
-            for(Object obj : selectedVertex.getConnections()) {
+            for (Object obj : selectedVertex.getConnections()) {
                 Connection connection = (Connection) obj;
                 Vertex otherVertex = connection.findOtherVertex(selectedVertex);
-                
+
                 System.out.println(otherVertex.getPosition() + nearest.getPosition().toString());
                 System.out.println(otherVertex.getPosition().subtract(nearest.getPosition()).getMagnitude());
 
-                if(otherVertex == nearest) {
+                if (otherVertex == nearest) {
                     System.out.println("WAAAAAAAAAGH");
                     return;
                 }
             }
 
-            Material material = camera.isUseIronForConnections() ? new Iron() : new Wood();
+            Material material;
+            if (camera.isUseIronForConnections()) {
+                material = new Iron();
+                camera.playIronConnectionSound(); // Riproduci il suono per intero
+            } else {
+                material = new Wood();
+                camera.playIronConnectionSound();
+            }
             Connection conn = new Connection(selectedVertex, nearest, material);
 
             selectedVertex.getConnections().add(conn);
@@ -109,7 +120,7 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
             // Crea un nuovo vertice e la connessione
             Vertex newVertex = new Vertex(worldPos);
             newVertex.draw(camera);
-            if(worldPos.getY() <= 0) {
+            if (worldPos.getY() <= 0) {
                 newVertex.setAnchored(true);
             }
             camera.getMainFort().addVertex(newVertex);
@@ -127,6 +138,5 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
 
         // Reset stato
         selectedVertex = null;
-        //camera.getRootScene().setOnMouseClicked(null);
     }
 }
