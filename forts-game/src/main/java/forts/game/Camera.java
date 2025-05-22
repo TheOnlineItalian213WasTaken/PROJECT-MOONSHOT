@@ -243,25 +243,7 @@ public class Camera extends Application implements Serializable{
             mainFort = new Fort();
             buildingsPane.getChildren().clear();
             buildingsVertexPane.getChildren().clear();
-
-            // Ricrea i vertici e le connessioni iniziali
-            Vertex testVertex4 = new Vertex(new Vector2(0, 300));
-            testVertex4.draw(this);
-            mainFort.addVertex(testVertex4);
-            Vertex testVertex5 = new Vertex(new Vector2(0, 1600));
-            testVertex5.draw(this);
-            mainFort.addVertex(testVertex5);
-            Vertex testVertex6 = new Vertex(new Vector2(1600, 1600));
-            testVertex6.draw(this);
-            mainFort.addVertex(testVertex6);
-
-            Connection testConnection3 = new Connection(testVertex2, testVertex, new Wood());
-            testConnection3.draw(this);
-            mainFort.addConnection(testConnection3);
-            Connection testConnection4 = new Connection(testVertex3, testVertex, new Wood());
-            testConnection4.draw(this);
-            mainFort.addConnection(testConnection4);
-
+            
             System.out.println("Struttura resettata!");
         });
 
