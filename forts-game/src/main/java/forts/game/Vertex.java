@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.scene.image.*;
 import javafx.scene.transform.*;
+import java.io.Serializable;
 
 // Classe che gestisce ogni singolo vertice su cui verranno applicate le forze all'interno del gioco
 
-public class Vertex implements Drawable {
+public class Vertex implements Drawable, Serializable {
     private String spriteDirectory = "vertexIcon.png"; // Directory della sprite per visualizzazione regolare
     private String spriteBuildDirectory = "buildVertexIcon.png"; // Directory della sprite per icona da costruzione
 
-    private ImageView sprite;
+    private transient ImageView sprite; // <-- AGGIUNTO transient
 
     private ArrayList connections; // Tutte le connessioni che originano con / terminano in questo vertica
     private ArrayList startingForces; // Forze che vengono disperse, mentre le actingForces non verranno disperse per la struttura

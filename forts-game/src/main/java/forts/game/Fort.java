@@ -1,10 +1,13 @@
 package forts.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.io.Serializable;
+
 
 // Classe che immagazzina tutti i vertici e connessioni, essa può essere caricata da un file
 
-public class Fort {
+public class Fort implements Serializable {
     private ArrayList vertices; // Tutti i vertici del forte
     private ArrayList connections; // Tutte le connessioni del forte 
 

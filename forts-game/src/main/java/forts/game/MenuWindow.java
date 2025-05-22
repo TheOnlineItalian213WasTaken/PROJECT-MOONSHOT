@@ -39,16 +39,24 @@ public class MenuWindow extends Application {
         Button exitButton = createMenuButton("Esci", EXIT_ICON);
 
         playButton.setOnAction(e -> {
-            // Avvia la finestra Camera
-            Stage cameraStage = new Stage();
-            Camera cameraApp = new Camera();
-            cameraApp.start(cameraStage);
-            primaryStage.close();
+            try {
+                Stage cameraStage = new Stage();
+                Camera cameraApp = new Camera();
+                cameraApp.start(cameraStage);
+                primaryStage.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
 
         settingsButton.setOnAction(e -> {
-            // Qui puoi aprire una finestra di impostazioni (da implementare)
-            System.out.println("Impostazioni cliccato!");
+            try {
+                Stage settingsStage = new Stage();
+                SettingsWindow settingsApp = new SettingsWindow();
+                settingsApp.start(settingsStage);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
 
         exitButton.setOnAction(e -> {
@@ -77,8 +85,8 @@ public class MenuWindow extends Application {
         button.setPrefWidth(300);
         button.setPrefHeight(70);
         button.setGraphicTextGap(20);
-        button.setContentDisplay(ContentDisplay.LEFT); // <-- Allinea icona e testo a sinistra
-        button.setAlignment(Pos.CENTER_LEFT);          // <-- Allinea il contenuto del bottone a sinistra
+        button.setContentDisplay(ContentDisplay.LEFT); // Allinea icona e testo a sinistra
+        button.setAlignment(Pos.CENTER_LEFT);          // Allinea il contenuto del bottone a sinistra
         return button;
     }
 

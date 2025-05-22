@@ -1,6 +1,7 @@
 package forts.game;
+import java.io.Serializable;
 
-public abstract class Material {
+public abstract class Material implements Serializable {
     protected String name; // Nome del materiale
     protected String description; // Descrizione del materiale
     protected String spriteDirectory; // Directory della sprite per il materiale (LE SPRITE SONO 200x800)
