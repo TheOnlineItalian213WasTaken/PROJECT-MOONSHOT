@@ -82,7 +82,7 @@ public class Camera extends Application implements Serializable{
         this.backgroundMusic = new Sound();
         this.terrain = new Terrain();
 
-        /*if (backgroundImageFile.equals("sfondo.png")) {
+        if (backgroundImageFile.equals("sfondo.png")) {
             // Sfondo verde → GreenBackgroundMusic
             this.backgroundMusic.playSound(2);
             this.backgroundMusic.loopSound();
@@ -94,7 +94,7 @@ public class Camera extends Application implements Serializable{
             // Default: GreenBackgroundMusic
             this.backgroundMusic.playSound(2);
             this.backgroundMusic.loopSound();
-        }*/
+        }
         
 
         // Creazione dei pane differenti
@@ -473,6 +473,12 @@ public class Camera extends Application implements Serializable{
     public void playIronConnectionSound() {
         
             sound.playSound(0); // Suono di connessione in ferro
+            // Il suono si fermerà da solo quando termina
+        
+    }
+    public void playWoodConnectionSound() {
+        
+            sound.playSound(3); // Suono di connessione in legno
             // Il suono si fermerà da solo quando termina
         
     }
