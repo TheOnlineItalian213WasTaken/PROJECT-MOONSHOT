@@ -4,6 +4,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.event.*;
 import javafx.application.Platform;
 import java.util.ArrayList;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.Media;
 
 public class VertexCreationHandler implements EventHandler<MouseEvent>  {
     private Camera camera;
@@ -97,7 +100,29 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
                 }
             }
 
-            Material material = camera.isUseIronForConnections() ? new Iron() : new Wood();
+            Material material;
+            if (camera.isUseIronForConnections()) {
+                material = new Iron();
+                java.net.URL audioUrl = getClass().getResource("audioSwag.wav");
+                System.out.println("audioUrl = " + audioUrl);
+                if (audioUrl != null) {
+                    try {
+                        String path = audioUrl.toExternalForm();
+                        System.out.println("Audio trovato! Audio path: " + path);
+                        Media media = new Media(path);
+                        MediaPlayer player = new MediaPlayer(media);
+                        player.setOnError(() -> System.out.println("Errore MediaPlayer: " + player.getError()));
+                        player.play();
+                    } catch (Exception ex) {
+                        System.out.println("Errore nella riproduzione audio:");
+                        ex.printStackTrace();
+                    }
+                } else {
+                    System.out.println("Audio NON trovato! Controlla il percorso e che il file sia in src/main/resources/audio/audioSwag.wav");
+                }
+            } else {
+                material = new Wood();
+            }
             Connection conn = new Connection(selectedVertex, nearest, material);
 
             selectedVertex.getConnections().add(conn);

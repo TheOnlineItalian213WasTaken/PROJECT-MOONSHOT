@@ -172,10 +172,10 @@ public class Vector2 implements Serializable {
     }
 
     @Override
-    public String toString() {
+    /*public String toString() {
         String finalString = "(X: " + this.x + ", Y: " + this.y + ", Magnitude: " + this.magnitude + ")";
         return finalString;
-    }
+    }*/
 
     public Vector2 clone() { // Ritorna una copia del vettore corrente
         return new Vector2(this.x, this.y);

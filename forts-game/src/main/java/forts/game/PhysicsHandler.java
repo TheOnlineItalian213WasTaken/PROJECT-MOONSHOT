@@ -105,7 +105,7 @@ public class PhysicsHandler extends Thread {
 
             vertex.setPosition(targetPosition);
 
-            System.out.println(vertex.getPosition() + "  " + velocity);
+            //System.out.println(vertex.getPosition() + "  " + velocity);
         }
 
 
