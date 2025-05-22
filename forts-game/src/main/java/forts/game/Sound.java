@@ -23,6 +23,14 @@ public class Sound {
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(soundURL[sound]);
             clip = AudioSystem.getClip();
             clip.open(audioInput);
+
+            // Abbassa il volume (es: -15.0f dB, puoi regolare il valore)
+            if (clip.isControlSupported(javax.sound.sampled.FloatControl.Type.MASTER_GAIN)) {
+                javax.sound.sampled.FloatControl gainControl =
+                    (javax.sound.sampled.FloatControl) clip.getControl(javax.sound.sampled.FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(-25.0f); // Più negativo = più basso il volume
+            }
+
             clip.start();
         } catch (Exception e) {
             e.printStackTrace();

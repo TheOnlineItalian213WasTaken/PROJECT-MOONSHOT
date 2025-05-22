@@ -79,7 +79,7 @@ public class Camera extends Application implements Serializable{
         this.mainFort = new Fort(); // TODO: AGGIUNGI FUNZIONI DI CARICMANETO DA FILE
         this.backgroundMusic = new Sound();
 
-        /*if (backgroundImageFile.equals("sfondo.png")) {
+        if (backgroundImageFile.equals("sfondo.png")) {
             // Sfondo verde → GreenBackgroundMusic
             this.backgroundMusic.playSound(2);
             this.backgroundMusic.loopSound();
@@ -91,7 +91,7 @@ public class Camera extends Application implements Serializable{
             // Default: GreenBackgroundMusic
             this.backgroundMusic.playSound(2);
             this.backgroundMusic.loopSound();
-        }*/
+        }
         
 
         // Creazione dei pane differenti

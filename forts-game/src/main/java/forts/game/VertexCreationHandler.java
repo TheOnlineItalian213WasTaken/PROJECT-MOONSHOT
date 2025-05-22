@@ -104,10 +104,10 @@ public class VertexCreationHandler implements EventHandler<MouseEvent> {
             Material material;
             if (camera.isUseIronForConnections()) {
                 material = new Iron();
-                //camera.playIronConnectionSound(); // Riproduci il suono per intero
+                camera.playIronConnectionSound(); // Suono ferro anche tra due vertici esistenti
             } else {
                 material = new Wood();
-                //camera.playWoodConnectionSound(); // Riproduci il suono per intero
+                camera.playWoodConnectionSound(); // Suono legno anche tra due vertici esistenti
             }
             Connection conn = new Connection(selectedVertex, nearest, material);
 
