@@ -17,6 +17,7 @@ public class Connection implements Drawable {
     private double weight;
 
     private double baseLength;
+    private double currLength;
 
     // Metodo costruttore 
     Connection(Vertex firstVertex, Vertex secondVertex, Material material){ 
@@ -28,6 +29,7 @@ public class Connection implements Drawable {
         
         // Calcolo peso
         this.baseLength = (firstVertex.getPosition().subtract(secondVertex.getPosition())).getMagnitude();
+        this.currLength = baseLength;
         this.weight = this.baseLength * material.getDensity();
     }
 
@@ -84,7 +86,9 @@ public class Connection implements Drawable {
         Rotate rotate;
 
         // Modifica della grandezza in base allo zoom della telecamera
-        relativeScale = (this.baseLength / 500) * camera.getZoom();
+        this.currLength = (this.vertices[0].getPosition().subtract(this.vertices[1].getPosition())).getMagnitude();
+
+        relativeScale = (this.currLength / 500) * camera.getZoom();
 
         // Riposizionamento del gui dinamico in base alla posizione root del mondo e posizizone della telecamera
         sizeOffset = new Vector2((100 * camera.getZoom()), (250 * camera.getZoom() * (relativeScale / camera.getZoom())));

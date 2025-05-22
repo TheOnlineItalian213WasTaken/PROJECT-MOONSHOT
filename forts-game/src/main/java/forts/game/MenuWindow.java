@@ -13,9 +13,9 @@ import javafx.scene.control.ContentDisplay;
 
 public class MenuWindow extends Application {
 
-    private static final String BACKGROUND_IMAGE = "sfondo2.png"; // Cambia con il tuo sfondo
-    private static final String PLAY_ICON = "iconaMartello.png";   // Cambia con la tua icona
-    private static final String EXIT_ICON = "iconaExit.png";     // Cambia con la tua icona
+    private static final String BACKGROUND_IMAGE = "sfondo2.png";
+    private static final String PLAY_ICON = "iconaMartello.png";
+    private static final String EXIT_ICON = "iconaExit.png";
 
     @Override
     public void start(Stage primaryStage) {
@@ -60,7 +60,7 @@ public class MenuWindow extends Application {
         StackPane root = new StackPane(background, menuBox);
 
         Scene scene = new Scene(root, 1280, 720);
-        primaryStage.setTitle("Forts - Menu");
+        primaryStage.setTitle("PROJECT: Moonshot - Menu");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

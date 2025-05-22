@@ -32,6 +32,7 @@ public class Vertex implements Drawable {
     Vertex() { // Costruttore base per creare un vertice in (0, 0)
         this.connections = new ArrayList();
         this.actingForces = new ArrayList();
+        this.startingForces = new ArrayList();
 
         this.velocity = new Vector2();
         this.acceleration = new Vector2();
@@ -41,6 +42,7 @@ public class Vertex implements Drawable {
     Vertex(Vector2 position) { // Costruttore per creare un vertice con posizione data dall'utente
         this.connections = new ArrayList();
         this.actingForces = new ArrayList();
+        this.startingForces = new ArrayList();
 
         this.velocity = new Vector2();
         this.acceleration = new Vector2();
@@ -52,6 +54,7 @@ public class Vertex implements Drawable {
 
         this.connections = connections;
         this.actingForces = new ArrayList();
+        this.startingForces = new ArrayList();
 
         this.velocity = new Vector2();
         this.acceleration = new Vector2();
@@ -120,9 +123,49 @@ public class Vertex implements Drawable {
         this.anchored = anchored;
     }
 
+    public String getSpriteBuildDirectory() {
+        return spriteBuildDirectory;
+    }
+
+    public void setSpriteBuildDirectory(String spriteBuildDirectory) {
+        this.spriteBuildDirectory = spriteBuildDirectory;
+    }
+
+    public ImageView getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(ImageView sprite) {
+        this.sprite = sprite;
+    }
+
+    public ArrayList getStartingForces() {
+        return startingForces;
+    }
+
+    public void setStartingForces(ArrayList startingForces) {
+        this.startingForces = startingForces;
+    }
+
+    public Vector2 getFinalForce() {
+        return finalForce;
+    }
+
+    public void setFinalForce(Vector2 finalForce) {
+        this.finalForce = finalForce;
+    }
+
+    public Vector2 getDispersedForce() {
+        return dispersedForce;
+    }
+
+    public void setDispersedForce(Vector2 dispersedForce) {
+        this.dispersedForce = dispersedForce;
+    }
+
     // Metodi classe
     public void addActingForce(Vector2 actingForce) {
-        this.addActingForce(actingForce);
+        this.actingForces.add(actingForce);
     }
 
     public boolean branchDisperse(Vector2 force) { // Funzione ricorsiva per la dispersione delle forze
@@ -139,8 +182,9 @@ public class Vertex implements Drawable {
                 continue;
             }
 
-            double dotProduct = ((Math.abs(this.position.inverse().dotProduct(otherVertex.getPosition())) - 0.5) * 2); // Ritorna il dotProduct tra i due vettori per calcolare la dispersione 
-            if(dotProduct < 0) {
+            double dotProduct = -(this.getPosition().subtract(otherVertex.getPosition()).dotProduct(Vector2.yAxis)); // Ritorna il dotProduct tra i due vettori per calcolare la dispersione 
+            //System.out.println(dotProduct);
+            if(dotProduct < 0.05) {
                 continue;
             }
 
@@ -155,8 +199,8 @@ public class Vertex implements Drawable {
                 continue;
             }
 
-            double dotProduct = ((Math.abs(this.position.inverse().dotProduct(otherVertex.getPosition())) - 0.5) * 2); // Ritorna il dotProduct tra i due vettori per calcolare la dispersione 
-            if(dotProduct < 0) {
+            double dotProduct = -(this.getPosition().subtract(otherVertex.getPosition()).dotProduct(Vector2.yAxis)); // Ritorna il dotProduct tra i due vettori per calcolare la dispersione 
+            if(dotProduct < 0.05) {
                 continue;
             }
 
@@ -176,7 +220,7 @@ public class Vertex implements Drawable {
         Vector2 sumForces = new Vector2();
 
         for(i = 0; i < startingForces.size(); i++) {
-            sumForces.add((Vector2)(startingForces.get(i)));
+            sumForces = sumForces.add((Vector2)(startingForces.get(i)));
         }
 
         branchDisperse(sumForces);

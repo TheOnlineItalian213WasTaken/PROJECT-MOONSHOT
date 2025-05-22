@@ -81,23 +81,6 @@ public class Camera extends Application {
         decorationPane.toFront();
         terrainPane.toFront();
 
-        Vertex testVertex = new Vertex(new Vector2(0, 300));
-        testVertex.draw(this);
-        mainFort.addVertex(testVertex);
-        Vertex testVertex2 = new Vertex(new Vector2(0, 1600));
-        testVertex2.draw(this);
-        mainFort.addVertex(testVertex2);
-        Vertex testVertex3 = new Vertex(new Vector2(1600, 1600));
-        testVertex3.draw(this);
-        mainFort.addVertex(testVertex3);
-
-        Connection testConnection = new Connection(testVertex2, testVertex, new Wood());
-        testConnection.draw(this);
-        mainFort.addConnection(testConnection);
-        Connection testConnection2 = new Connection(testVertex3, testVertex, new Wood());
-        testConnection2.draw(this);
-        mainFort.addConnection(testConnection2);
-
         // Creazione della scene e messa in mostra della finestra
         rootScene = new Scene(rootPane);
 
@@ -117,6 +100,7 @@ public class Camera extends Application {
         // Gestione di thread secondari
         CameraPositionUpdateThread updateLoop = new CameraPositionUpdateThread(this);
         GUIPositionUpdateThread guiUpdateLoop = new GUIPositionUpdateThread(this);
+        PhysicsHandler physicsLoop = new PhysicsHandler(this);
 
         updateLoop.setDaemon(true);
         updateLoop.start();
@@ -124,6 +108,8 @@ public class Camera extends Application {
         guiUpdateLoop.setDaemon(true);
         guiUpdateLoop.start();
         
+        physicsLoop.setDaemon(true);
+        physicsLoop.start();
     }
 
     public static void main(String[] args) {

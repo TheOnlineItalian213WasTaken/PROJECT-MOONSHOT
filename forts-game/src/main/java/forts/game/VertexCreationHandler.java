@@ -55,6 +55,9 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
                 // Crea un nuovo vertice e la connessione
                 Vertex newVertex = new Vertex(worldPos);
                 newVertex.draw(camera);
+                if(worldPos.getY() <= 0) {
+                    newVertex.setAnchored(true);
+                }
                 camera.getMainFort().addVertex(newVertex);
 
                 this.selectedVertex = newVertex;
@@ -105,6 +108,9 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
             // Crea un nuovo vertice e la connessione
             Vertex newVertex = new Vertex(worldPos);
             newVertex.draw(camera);
+            if(worldPos.getY() <= 0) {
+                newVertex.setAnchored(true);
+            }
             camera.getMainFort().addVertex(newVertex);
 
             Connection conn = new Connection(selectedVertex, newVertex, new Wood());
