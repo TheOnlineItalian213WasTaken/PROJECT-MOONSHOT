@@ -10,8 +10,8 @@ import java.io.Serializable;
 import javafx.scene.*;
 import javafx.scene.effect.ColorAdjust;
 
-public class Terrain implements Drawable {
-    private String spriteDirectory = "terreno.png";
+public abstract class Terrain implements Drawable {
+    protected String spriteDirectory;
     private transient ImageView sprite;
 
     public void draw(Camera camera) {

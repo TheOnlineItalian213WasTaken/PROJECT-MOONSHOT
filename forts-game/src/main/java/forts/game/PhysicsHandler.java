@@ -67,7 +67,7 @@ public class PhysicsHandler extends Thread {
         int i, size;
 
         size = camera.getMainFort().getConnections().size();
-        //System.out.println(size);
+        System.out.println(size);
         for (i = 0; i < size; i++) {
             Connection connection = (Connection) camera.getMainFort().getConnections().get(i);
             double finalFatigue;

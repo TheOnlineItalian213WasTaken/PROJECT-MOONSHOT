@@ -84,18 +84,21 @@ public class Camera extends Application implements Serializable{
         this.cameraVelocity = new Vector2();
         this.keyInputHandler = new KeyInputHandler(this);
         this.vertexCreationHandler = new VertexCreationHandler(this);
-        this.mainFort = new Fort(); // TODO: AGGIUNGI FUNZIONI DI CARICAMENTO DA FILE
+        this.mainFort = new Fort();
         this.backgroundMusic = new Sound();
-        this.terrain = new Terrain();
 
         if (backgroundImageFile.equals("sfondo.png")) {
             // Sfondo verde → GreenBackgroundMusic
             this.backgroundMusic.playSound(2);
             this.backgroundMusic.loopSound();
+
+            this.terrain = new Grass();
         } else if (backgroundImageFile.equals("sfondo1.png")) {
             // Sfondo deserto → DesertBackgroundMusic
             this.backgroundMusic.playSound(1);
             this.backgroundMusic.loopSound();
+
+            this.terrain = new Sand();
         } else {
             // Default: GreenBackgroundMusic
             this.backgroundMusic.playSound(2);
