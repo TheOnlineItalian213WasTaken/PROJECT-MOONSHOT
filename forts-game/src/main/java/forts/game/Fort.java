@@ -8,38 +8,38 @@ import java.io.Serializable;
 // Classe che immagazzina tutti i vertici e connessioni, essa può essere caricata da un file
 
 public class Fort implements Serializable {
-    private ArrayList vertices; // Tutti i vertici del forte
-    private ArrayList connections; // Tutte le connessioni del forte 
+    private ArrayList<Vertex> vertices; // Tutti i vertici del forte
+    private ArrayList<Connection> connections; // Tutte le connessioni del forte
 
     // Metodo costruttore
-    Fort() {
-        this.vertices = new ArrayList();
-        this.connections = new ArrayList();
+    public Fort() {
+        this.vertices = new ArrayList<>();
+        this.connections = new ArrayList<>();
     }
 
     // Metodi set() e get()
-    public ArrayList getVertices() {
+    public ArrayList<Vertex> getVertices() {
         return vertices;
     }
 
-    public void setVertices(ArrayList vertices) {
+    public void setVertices(ArrayList<Vertex> vertices) {
         this.vertices = vertices;
     }
 
-    public ArrayList getConnections() {
+    public ArrayList<Connection> getConnections() {
         return connections;
     }
 
-    public void setConnections(ArrayList connections) {
+    public void setConnections(ArrayList<Connection> connections) {
         this.connections = connections;
     }
 
     // Metodi classe
-    public void addVertex(Vertex vertex) {
-        this.vertices.add(vertex);
+    public void addVertex(Vertex v) {
+        vertices.add(v);
     }
 
-    public void addConnection(Connection connection) {
-        this.connections.add(connection);
+    public void addConnection(Connection c) {
+        connections.add(c);
     }
 }

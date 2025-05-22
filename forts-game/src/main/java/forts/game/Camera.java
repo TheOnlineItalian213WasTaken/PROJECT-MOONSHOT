@@ -1,5 +1,13 @@
 package forts.game;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.NotSerializableException;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 import javafx.application.*;
@@ -10,8 +18,6 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.image.Image;
@@ -54,7 +60,7 @@ public class Camera extends Application implements Serializable{
     private transient Pane buildingsVertexPane;
     private transient Pane backgroundPane;
 
-    private transient ImageView backgroundImageView;
+    private  ImageView backgroundImageView;
 
     // Variabile per tenere traccia se si sta usando il ferro per le connessioni
     private boolean useIronForConnections = false;
@@ -76,7 +82,7 @@ public class Camera extends Application implements Serializable{
         this.cameraVelocity = new Vector2();
         this.keyInputHandler = new KeyInputHandler(this);
         this.vertexCreationHandler = new VertexCreationHandler(this);
-        this.mainFort = new Fort(); // TODO: AGGIUNGI FUNZIONI DI CARICMANETO DA FILE
+        this.mainFort = new Fort(); // TODO: AGGIUNGI FUNZIONI DI CARICAMENTO DA FILE
         this.backgroundMusic = new Sound();
 
         if (backgroundImageFile.equals("sfondo.png")) {
@@ -201,10 +207,7 @@ public class Camera extends Application implements Serializable{
             woodButton.setStyle("-fx-background-radius: 30; -fx-background-color: rgba(139,69,19,0.8);");
         });
 
-
-        rootPane.getChildren().add(ironButton);
-
-        //  Bottone per SALVARE la partita
+         //  Bottone per SALVARE la partita
         Button saveButton = new Button("Salva");
         saveButton.setStyle("-fx-font-size: 16px; -fx-background-radius: 20; -fx-background-color: #4caf50; -fx-text-fill: white;");
         saveButton.setPrefWidth(90);
@@ -213,8 +216,9 @@ public class Camera extends Application implements Serializable{
         StackPane.setMargin(saveButton, new Insets(0, 0, 30, 30));
         rootPane.getChildren().add(saveButton);
 
+        // SALVA
         saveButton.setOnAction(e -> {
-            try (java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(new java.io.FileOutputStream("fort_save.ser"))) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("fort_save.ser"))) {
                 out.writeObject(mainFort);
                 System.out.println("Partita salvata!");
             } catch (Exception ex) {
@@ -232,19 +236,22 @@ public class Camera extends Application implements Serializable{
         StackPane.setMargin(loadButton, new Insets(0, 0, 30, 130)); // 130px per non sovrapporsi a "Salva"
         rootPane.getChildren().add(loadButton);
 
+        // CARICA
         loadButton.setOnAction(e -> {
-            try (java.io.ObjectInputStream in = new java.io.ObjectInputStream(new java.io.FileInputStream("fort_save.ser"))) {
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("fort_save.ser"))) {
                 Fort loadedFort = (Fort) in.readObject();
                 setMainFort(loadedFort);
-                // Ridisegna tutto
+
+                // Svuota la grafica attuale
                 buildingsPane.getChildren().clear();
                 buildingsVertexPane.getChildren().clear();
-                for (Object vObj : loadedFort.getVertices()) {
-                    Vertex v = (Vertex) vObj;
+
+                // Ridisegna vertici
+                for (Vertex v : loadedFort.getVertices()) {
                     v.draw(this);
                 }
-                for (Object cObj : loadedFort.getConnections()) {
-                    Connection c = (Connection) cObj;
+                // Ridisegna connessioni
+                for (Connection c : loadedFort.getConnections()) {
                     c.draw(this);
                 }
                 System.out.println("Partita caricata!");
@@ -252,6 +259,10 @@ public class Camera extends Application implements Serializable{
                 ex.printStackTrace();
             }
         });
+
+        rootPane.getChildren().add(ironButton);
+
+        
 
 
         // Bottone per RESETTARE la struttura
@@ -272,6 +283,7 @@ public class Camera extends Application implements Serializable{
             
             System.out.println("Struttura resettata!");
         });
+
 
 
         // Gestione di thread secondari
@@ -446,5 +458,6 @@ public class Camera extends Application implements Serializable{
             // Il suono si fermerà da solo quando termina
         
     }
+    
 
 }

@@ -16,7 +16,7 @@ public class Connection implements Drawable, Serializable {
     private Vertex[] vertices; // I due vertici della connessione sono tenuti qui dentro
 
     private transient ImageView sprite; // <-- AGGIUNTO transient
-    private ColorAdjust fatigueColor;
+    private transient ColorAdjust fatigueColor;
 
     private Material material;
     private double weight;
