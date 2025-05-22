@@ -62,6 +62,8 @@ public class Camera extends Application implements Serializable{
 
     private  ImageView backgroundImageView;
 
+    private Terrain terrain;
+
     // Variabile per tenere traccia se si sta usando il ferro per le connessioni
     private boolean useIronForConnections = false;
 
@@ -84,6 +86,7 @@ public class Camera extends Application implements Serializable{
         this.vertexCreationHandler = new VertexCreationHandler(this);
         this.mainFort = new Fort(); // TODO: AGGIUNGI FUNZIONI DI CARICAMENTO DA FILE
         this.backgroundMusic = new Sound();
+        this.terrain = new Terrain();
 
         if (backgroundImageFile.equals("sfondo.png")) {
             // Sfondo verde → GreenBackgroundMusic
@@ -121,21 +124,6 @@ public class Camera extends Application implements Serializable{
         buildingsVertexPane.toFront();
         decorationPane.toFront();
         terrainPane.toFront();
-
-        // Creazione della scene e messa in mostra della finestra
-        rootScene = new Scene(rootPane);
-
-        rootScene.setOnKeyPressed(keyInputHandler);
-        rootScene.setOnKeyReleased(keyInputHandler);
-        rootScene.setOnMouseClicked(vertexCreationHandler);
-        
-        primaryStage.setScene(rootScene);
-        primaryStage.setFullScreen(true);
-        primaryStage.setFullScreenExitHint(new String());
-        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-
-
-        primaryStage.show();
 
         // Pulsante per tornare al menu in alto a destra
         Button menuButton = new Button("Menu");
@@ -284,6 +272,22 @@ public class Camera extends Application implements Serializable{
             System.out.println("Struttura resettata!");
         });
 
+        // Creazione della scene e messa in mostra della finestra
+        rootScene = new Scene(rootPane);
+
+        rootScene.setOnKeyPressed(keyInputHandler);
+        rootScene.setOnKeyReleased(keyInputHandler);
+        rootScene.setOnMouseClicked(vertexCreationHandler);
+        
+        primaryStage.setScene(rootScene);
+        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreenExitHint(new String());
+        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+
+        primaryStage.show();
+
+        // Inizializzazione terreno
+        this.terrain.draw(this);
 
 
         // Gestione di thread secondari
@@ -423,6 +427,38 @@ public class Camera extends Application implements Serializable{
 
     public void setBackgroundImageView(ImageView backgroundImageView) {
         this.backgroundImageView = backgroundImageView;
+    }
+
+    public static String getBackgroundImageFile() {
+        return backgroundImageFile;
+    }
+
+    public static void setBackgroundImageFile(String backgroundImageFile) {
+        Camera.backgroundImageFile = backgroundImageFile;
+    }
+
+    public Sound getBackgroundMusic() {
+        return backgroundMusic;
+    }
+
+    public void setBackgroundMusic(Sound backgroundMusic) {
+        this.backgroundMusic = backgroundMusic;
+    }
+
+    public Sound getSound() {
+        return sound;
+    }
+
+    public void setSound(Sound sound) {
+        this.sound = sound;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
     }
 
     // Metodi classe

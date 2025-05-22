@@ -31,15 +31,13 @@ public class KeyInputHandler implements EventHandler<KeyEvent> {
         Vector2 movementTarget;
         KeyCode key = keyEvent.getCode();
 
-        System.out.println(key);
-
-        if(key == KeyCode.UP) {
+        if(key == KeyCode.W) {
             movementTarget = new Vector2(0, BASE_SPEED);
-        } else if(key == KeyCode.DOWN) {
+        } else if(key == KeyCode.S) {
             movementTarget = new Vector2(0, -BASE_SPEED);
-        } else if(key == KeyCode.LEFT) {
+        } else if(key == KeyCode.A) {
             movementTarget = new Vector2(-BASE_SPEED, 0);
-        } else if(key == KeyCode.RIGHT) {
+        } else if(key == KeyCode.D) {
             movementTarget = new Vector2(BASE_SPEED, 0);
         } else {
             return;

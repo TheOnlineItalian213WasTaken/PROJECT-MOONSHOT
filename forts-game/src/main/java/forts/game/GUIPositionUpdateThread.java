@@ -17,6 +17,7 @@ public class GUIPositionUpdateThread extends Thread {
             System.out.print(' ');
             updateVertices();
             updateConnections();
+            updateTerrain();
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
@@ -45,5 +46,9 @@ public class GUIPositionUpdateThread extends Thread {
             Connection currConnection = (Connection) connections.get(i);
             currConnection.update(camera);
         }
+    }
+
+    public void updateTerrain() {
+        camera.getTerrain().update(camera);
     }
 }

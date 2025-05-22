@@ -67,7 +67,7 @@ public class PhysicsHandler extends Thread {
         int i, size;
 
         size = camera.getMainFort().getConnections().size();
-        System.out.println(size);
+        //System.out.println(size);
         for (i = 0; i < size; i++) {
             Connection connection = (Connection) camera.getMainFort().getConnections().get(i);
             double finalFatigue;
@@ -75,7 +75,7 @@ public class PhysicsHandler extends Thread {
             finalFatigue = (connection.getHoldingWeight() / connection.getMaterial().getWeightResistance()) * 1000;
 
             connection.getMaterial().setFatigue(finalFatigue);
-            System.out.println(finalFatigue + "   " + connection.getMaterial().getFatigue());
+            //System.out.println(finalFatigue + "   " + connection.getMaterial().getFatigue());
         }
     }
 
