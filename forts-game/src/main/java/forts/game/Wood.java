@@ -6,7 +6,7 @@ public class Wood extends Material implements Serializable{
     
     // Costruttore
     public Wood() {
-        super("wood", 0.5, 0.5, 0.5, 0.5, 0.5, "woodSprite.png");
+        super("wood", 1, 1000, 0.5, 0.5, 0.5, "woodSprite.png");
     }
 
 

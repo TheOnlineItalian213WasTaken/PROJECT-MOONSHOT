@@ -169,7 +169,7 @@ public class Vertex implements Drawable, Serializable {
         this.actingForces.add(actingForce);
     }
 
-    public boolean branchDisperse(Vector2 force) { // Funzione ricorsiva per la dispersione delle forze
+    public boolean branchDisperse(Vector2 force, double previousWeight) { // Funzione ricorsiva per la dispersione delle forze
         int i, j, length, dispersionDiv;
         Vector2 finalForce = force.clone();
 
@@ -183,7 +183,7 @@ public class Vertex implements Drawable, Serializable {
                 continue;
             }
 
-            double dotProduct = -(this.getPosition().subtract(otherVertex.getPosition()).dotProduct(Vector2.yAxis)); // Ritorna il dotProduct tra i due vettori per calcolare la dispersione 
+            double dotProduct = (this.getPosition().subtract(otherVertex.getPosition()).dotProduct(Vector2.yAxis)); // Ritorna il dotProduct tra i due vettori per calcolare la dispersione 
             //System.out.println(dotProduct);
             if(dotProduct < 0.05) {
                 continue;
@@ -200,7 +200,7 @@ public class Vertex implements Drawable, Serializable {
                 continue;
             }
 
-            double dotProduct = -(this.getPosition().subtract(otherVertex.getPosition()).dotProduct(Vector2.yAxis)); // Ritorna il dotProduct tra i due vettori per calcolare la dispersione 
+            double dotProduct = (this.getPosition().subtract(otherVertex.getPosition()).dotProduct(Vector2.yAxis)); // Ritorna il dotProduct tra i due vettori per calcolare la dispersione 
             if(dotProduct < 0.05) {
                 continue;
             }
@@ -208,7 +208,12 @@ public class Vertex implements Drawable, Serializable {
             Vector2 finalDispersedForce = force.divide(dispersionDiv).multiply(dotProduct);
             finalForce.subtract(finalDispersedForce);
 
-            otherVertex.branchDisperse(force);
+            double finalDispersedWeight = (previousWeight / dispersionDiv) * dotProduct;
+            currConnection.setHoldingWeight(currConnection.getHoldingWeight() + finalDispersedWeight);
+
+            System.out.println(finalDispersedWeight + "   " + dotProduct);
+
+            otherVertex.branchDisperse(force, finalDispersedWeight);
         }
 
         this.addActingForce(finalForce);
@@ -216,7 +221,7 @@ public class Vertex implements Drawable, Serializable {
         return true;
     }
 
-    public void disperseForces() { // Calcola la dispersione tra tutte le forze
+    public void disperseForces(double startingWeight) { // Calcola la dispersione tra tutte le forze
         int i;
         Vector2 sumForces = new Vector2();
 
@@ -224,7 +229,7 @@ public class Vertex implements Drawable, Serializable {
             sumForces = sumForces.add((Vector2)(startingForces.get(i)));
         }
 
-        branchDisperse(sumForces);
+        branchDisperse(sumForces, startingWeight);
     }
 
     public void draw(Camera camera) {

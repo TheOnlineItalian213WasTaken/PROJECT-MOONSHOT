@@ -4,8 +4,11 @@ import java.lang.Math;
 
 import javafx.application.Platform;
 import javafx.scene.image.*;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.*;
 import java.io.Serializable;
+import javafx.scene.*;
+import javafx.scene.effect.ColorAdjust;
 
 // Classe che gestisce le connessioni tra vertici di costruzione
 
@@ -13,9 +16,11 @@ public class Connection implements Drawable, Serializable {
     private Vertex[] vertices; // I due vertici della connessione sono tenuti qui dentro
 
     private transient ImageView sprite; // <-- AGGIUNTO transient
+    private ColorAdjust fatigueColor;
 
     private Material material;
     private double weight;
+    private double holdingWeight;
 
     private double baseLength;
     private double currLength;
@@ -31,7 +36,7 @@ public class Connection implements Drawable, Serializable {
         // Calcolo peso
         this.baseLength = (firstVertex.getPosition().subtract(secondVertex.getPosition())).getMagnitude();
         this.currLength = baseLength;
-        this.weight = this.baseLength * material.getDensity();
+        this.weight = (this.baseLength / 4) * material.getDensity();
     }
 
     // Metodi set e get
@@ -49,6 +54,46 @@ public class Connection implements Drawable, Serializable {
 
     public void setMaterial(Material material) {
         this.material = material;
+    }
+
+    public ImageView getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(ImageView sprite) {
+        this.sprite = sprite;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getHoldingWeight() {
+        return holdingWeight;
+    }
+
+    public void setHoldingWeight(double holdingWeight) {
+        this.holdingWeight = holdingWeight;
+    }
+
+    public double getBaseLength() {
+        return baseLength;
+    }
+
+    public void setBaseLength(double baseLength) {
+        this.baseLength = baseLength;
+    }
+
+    public double getCurrLength() {
+        return currLength;
+    }
+
+    public void setCurrLength(double currLength) {
+        this.currLength = currLength;
     }
 
     // Metodi classe
@@ -75,6 +120,10 @@ public class Connection implements Drawable, Serializable {
         this.sprite.setVisible(false);
         this.sprite.setPreserveRatio(false);
 
+        this.fatigueColor = new ColorAdjust(0, 0, 0, 0);
+
+        this.sprite.setEffect(fatigueColor);
+
         camera.getBuildingsPane().getChildren().add(sprite);
 
         this.update(camera);
@@ -90,6 +139,10 @@ public class Connection implements Drawable, Serializable {
         this.currLength = (this.vertices[0].getPosition().subtract(this.vertices[1].getPosition())).getMagnitude();
 
         relativeScale = (this.currLength / 500) * camera.getZoom();
+
+        // Colorazione in base alla fatigue
+        double fatigueFactor = (this.material.getFatigue() / 1000);
+        this.fatigueColor.setSaturation(fatigueFactor);
 
         // Riposizionamento del gui dinamico in base alla posizione root del mondo e posizizone della telecamera
         sizeOffset = new Vector2((100 * camera.getZoom()), (250 * camera.getZoom() * (relativeScale / camera.getZoom())));
