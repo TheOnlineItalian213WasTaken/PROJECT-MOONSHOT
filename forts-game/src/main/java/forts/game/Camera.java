@@ -17,6 +17,9 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.Serializable;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 
 public class Camera extends Application implements Serializable{
     private static String backgroundImageFile = "sfondo.png"; // default
@@ -24,6 +27,9 @@ public class Camera extends Application implements Serializable{
     public static void setBackgroundImage(String filename) {
         backgroundImageFile = filename;
     }
+
+    private Sound backgroundMusic;
+    Sound sound = new Sound();
 
     private Vector2 position; // Variabile per tenere la posizione della telecamera
     private Vector2 rootWorldPosition; // La posizione del punto (0, 0) nel mondo, questo valore è basato sulla grandezza dello schermo
@@ -71,6 +77,22 @@ public class Camera extends Application implements Serializable{
         this.keyInputHandler = new KeyInputHandler(this);
         this.vertexCreationHandler = new VertexCreationHandler(this);
         this.mainFort = new Fort(); // TODO: AGGIUNGI FUNZIONI DI CARICMANETO DA FILE
+        this.backgroundMusic = new Sound();
+
+        /*if (backgroundImageFile.equals("sfondo.png")) {
+            // Sfondo verde → GreenBackgroundMusic
+            this.backgroundMusic.playSound(2);
+            this.backgroundMusic.loopSound();
+        } else if (backgroundImageFile.equals("sfondo1.png")) {
+            // Sfondo deserto → DesertBackgroundMusic
+            this.backgroundMusic.playSound(1);
+            this.backgroundMusic.loopSound();
+        } else {
+            // Default: GreenBackgroundMusic
+            this.backgroundMusic.playSound(2);
+            this.backgroundMusic.loopSound();
+        }*/
+        
 
         // Creazione dei pane differenti
         rootPane = new StackPane();
@@ -121,6 +143,10 @@ public class Camera extends Application implements Serializable{
         rootPane.getChildren().add(menuButton);
 
         menuButton.setOnAction(e -> {
+            // Ferma la musica di background
+            if (backgroundMusic != null) {
+                backgroundMusic.stopSound();
+            }
             primaryStage.close();
             Stage menuStage = new Stage();
             MenuWindow menuApp = new MenuWindow();
@@ -406,6 +432,13 @@ public class Camera extends Application implements Serializable{
         finishedVector = finishedVector.subtract(this.rootWorldPosition).divide(this.zoom).add(this.position);
 
         return finishedVector;
+    }
+
+    public void playIronConnectionSound() {
+        
+            sound.playSound(0); // Suono di connessione in ferro
+            // Il suono si fermerà da solo quando termina
+        
     }
 
 }

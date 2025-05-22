@@ -8,9 +8,10 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.Media;
 
-public class VertexCreationHandler implements EventHandler<MouseEvent>  {
+public class VertexCreationHandler implements EventHandler<MouseEvent> {
     private Camera camera;
     private Vertex selectedVertex = null;
+    private Sound sound = new Sound();
 
     public VertexCreationHandler(Camera camera) {
         this.camera = camera;
@@ -58,7 +59,7 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
                 // Crea un nuovo vertice e la connessione
                 Vertex newVertex = new Vertex(worldPos);
                 newVertex.draw(camera);
-                if(worldPos.getY() <= 0) {
+                if (worldPos.getY() <= 0) {
                     newVertex.setAnchored(true);
                 }
                 camera.getMainFort().addVertex(newVertex);
@@ -87,14 +88,14 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
             }
 
             // Crea solo la connessione
-            for(Object obj : selectedVertex.getConnections()) {
+            for (Object obj : selectedVertex.getConnections()) {
                 Connection connection = (Connection) obj;
                 Vertex otherVertex = connection.findOtherVertex(selectedVertex);
-                
+
                 System.out.println(otherVertex.getPosition() + nearest.getPosition().toString());
                 System.out.println(otherVertex.getPosition().subtract(nearest.getPosition()).getMagnitude());
 
-                if(otherVertex == nearest) {
+                if (otherVertex == nearest) {
                     System.out.println("WAAAAAAAAAGH");
                     return;
                 }
@@ -103,25 +104,10 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
             Material material;
             if (camera.isUseIronForConnections()) {
                 material = new Iron();
-                java.net.URL audioUrl = getClass().getResource("audioSwag.wav");
-                System.out.println("audioUrl = " + audioUrl);
-                if (audioUrl != null) {
-                    try {
-                        String path = audioUrl.toExternalForm();
-                        System.out.println("Audio trovato! Audio path: " + path);
-                        Media media = new Media(path);
-                        MediaPlayer player = new MediaPlayer(media);
-                        player.setOnError(() -> System.out.println("Errore MediaPlayer: " + player.getError()));
-                        player.play();
-                    } catch (Exception ex) {
-                        System.out.println("Errore nella riproduzione audio:");
-                        ex.printStackTrace();
-                    }
-                } else {
-                    System.out.println("Audio NON trovato! Controlla il percorso e che il file sia in src/main/resources/audio/audioSwag.wav");
-                }
+                camera.playIronConnectionSound(); // Riproduci il suono per intero
             } else {
                 material = new Wood();
+                camera.playIronConnectionSound();
             }
             Connection conn = new Connection(selectedVertex, nearest, material);
 
@@ -134,7 +120,7 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
             // Crea un nuovo vertice e la connessione
             Vertex newVertex = new Vertex(worldPos);
             newVertex.draw(camera);
-            if(worldPos.getY() <= 0) {
+            if (worldPos.getY() <= 0) {
                 newVertex.setAnchored(true);
             }
             camera.getMainFort().addVertex(newVertex);
@@ -152,6 +138,5 @@ public class VertexCreationHandler implements EventHandler<MouseEvent>  {
 
         // Reset stato
         selectedVertex = null;
-        //camera.getRootScene().setOnMouseClicked(null);
     }
 }
