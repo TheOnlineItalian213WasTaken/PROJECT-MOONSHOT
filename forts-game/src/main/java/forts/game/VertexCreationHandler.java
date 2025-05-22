@@ -104,10 +104,10 @@ public class VertexCreationHandler implements EventHandler<MouseEvent> {
             Material material;
             if (camera.isUseIronForConnections()) {
                 material = new Iron();
-                camera.playIronConnectionSound(); // Riproduci il suono per intero
+                //camera.playIronConnectionSound(); // Riproduci il suono per intero
             } else {
                 material = new Wood();
-                camera.playIronConnectionSound();
+                //camera.playWoodConnectionSound(); // Riproduci il suono per intero
             }
             Connection conn = new Connection(selectedVertex, nearest, material);
 
@@ -125,7 +125,14 @@ public class VertexCreationHandler implements EventHandler<MouseEvent> {
             }
             camera.getMainFort().addVertex(newVertex);
 
-            Material material = camera.isUseIronForConnections() ? new Iron() : new Wood();
+            Material material;
+            if (camera.isUseIronForConnections()) {
+                material = new Iron();
+                camera.playIronConnectionSound(); // Riproduci il suono anche qui!
+            } else {
+                material = new Wood();
+                camera.playWoodConnectionSound(); // Riproduci il suono anche qui!
+            }
             Connection conn = new Connection(selectedVertex, newVertex, material);
 
             selectedVertex.getConnections().add(conn);

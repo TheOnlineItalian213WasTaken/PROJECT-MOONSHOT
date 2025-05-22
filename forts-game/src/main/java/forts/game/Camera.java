@@ -440,5 +440,11 @@ public class Camera extends Application implements Serializable{
             // Il suono si fermerà da solo quando termina
         
     }
+    public void playWoodConnectionSound() {
+        
+            sound.playSound(3); // Suono di connessione in legno
+            // Il suono si fermerà da solo quando termina
+        
+    }
 
 }
